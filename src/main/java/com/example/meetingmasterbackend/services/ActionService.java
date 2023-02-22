@@ -16,6 +16,6 @@ public class ActionService {
         this.actionRepository = actionRepository;
     }
 
-    public List<Action> getActions(){return actionRepository.findAll();}
-    public Action getActionById(long id){return actionRepository.findActionById(id);}
+    public List<Action> getActions(){return this.actionRepository.findAll();}
+    public Action getActionById(long id){return this.actionRepository.findActionById(id);}
 }
