@@ -9,5 +9,6 @@ public interface MeetingRepository extends CrudRepository<Meeting,Long> {
 
     List<Meeting> findAll();
     Meeting findMeetingById(long id);
-    List<Meeting> findAllByTypeId(long id);
+    List<Meeting> findMeetingsByTypeId(long id);
+    List<Meeting> findMeetingsById(long[] ids);
 }

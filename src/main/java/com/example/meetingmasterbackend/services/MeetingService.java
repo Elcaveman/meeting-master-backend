@@ -26,6 +26,6 @@ public class MeetingService {
     }
 
     public List<Meeting> getMeetingsByTypeId(long id){
-        return this.meetingRepository.findAllByTypeId(id);
+        return this.meetingRepository.findMeetingsByTypeId(id);
     }
 }

@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface ProfileRepository extends CrudRepository<Profile,Long> {
     List<Profile> findAll();
+
+    List<Profile> findProfilesById(long[] ids);
     Profile findProfileById(long id);
     Profile findProfileByEmail(String email);
-    List<Profile> findAllByNameContains(String name);
+    List<Profile> findProfilesByNameContains(String name);
 }

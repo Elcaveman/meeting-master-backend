@@ -13,4 +13,24 @@ public class MeetingType {
 
     @OneToMany(mappedBy = "type") // DONE
     private Set<Meeting> meetings;
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Meeting> getMeetings() {
+        return meetings;
+    }
+
+    public void setMeetings(Set<Meeting> meetings) {
+        this.meetings = meetings;
+    }
 }

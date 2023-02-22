@@ -8,4 +8,5 @@ import java.util.List;
 public interface ActionRepository extends CrudRepository<Action, Long> {
     List<Action> findAll();
     Action findActionById(long id);
+    List<Action> findActionsById(long[] ids);
 }
