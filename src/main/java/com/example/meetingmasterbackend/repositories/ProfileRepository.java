@@ -8,8 +8,8 @@ import java.util.List;
 public interface ProfileRepository extends CrudRepository<Profile,Long> {
     List<Profile> findAll();
 
-    List<Profile> findProfilesById(long[] ids);
-    Profile findProfileById(long id);
-    Profile findProfileByEmail(String email);
-    List<Profile> findProfilesByNameContains(String name);
+    List<Profile> findProfilesById(Long[] ids);
+    Profile findProfileById(Long id);
+    Profile findProfileByEmailIgnoreCase(String email);
+    List<Profile> findProfilesByNameContainsIgnoreCase(String name);
 }

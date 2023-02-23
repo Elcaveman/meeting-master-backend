@@ -21,11 +21,11 @@ public class MeetingService {
         return this.meetingRepository.findAll();
     }
 
-    public Meeting getMeetingById(long id){
+    public Meeting getMeetingById(Long id){
         return this.meetingRepository.findMeetingById(id);
     }
 
-    public List<Meeting> getMeetingsByTypeId(long id){
+    public List<Meeting> getMeetingsByTypeId(Long id){
         return this.meetingRepository.findMeetingsByTypeId(id);
     }
 }

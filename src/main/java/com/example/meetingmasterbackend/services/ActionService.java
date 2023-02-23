@@ -5,6 +5,7 @@ import com.example.meetingmasterbackend.repositories.ActionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -17,5 +18,7 @@ public class ActionService {
     }
 
     public List<Action> getActions(){return this.actionRepository.findAll();}
-    public Action getActionById(long id){return this.actionRepository.findActionById(id);}
+    public Action getActionById(Long id){return this.actionRepository.findActionById(id);}
+    public List<Action> getActionsByTypeId(Long id){return this.actionRepository.findActionsByTypeId(id);}
+    public List<Action> getActionsById(Long[] ids){return this.actionRepository.findAllById(ids);}
 }

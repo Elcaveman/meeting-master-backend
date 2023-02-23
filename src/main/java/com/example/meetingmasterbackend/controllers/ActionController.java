@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -25,7 +26,16 @@ public class ActionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Action> getActionById(@PathVariable long id){
+    public ResponseEntity<Action> getActionById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionById(id));
     }
+    @GetMapping("/type/{id}")
+    public ResponseEntity<List<Action>> getActionsByTypeId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsByTypeId(id));
+    }
+
+//    @GetMapping("/byIds")
+//    public ResponseEntity<List<Action>> getActionsById(@RequestParam("ids") Long[] ids){
+//        return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsById(ids));
+//    }
 }

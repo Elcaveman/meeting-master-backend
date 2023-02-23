@@ -8,7 +8,7 @@ import java.util.List;
 public interface MeetingRepository extends CrudRepository<Meeting,Long> {
 
     List<Meeting> findAll();
-    Meeting findMeetingById(long id);
-    List<Meeting> findMeetingsByTypeId(long id);
-    List<Meeting> findMeetingsById(long[] ids);
+    Meeting findMeetingById(Long id);
+    List<Meeting> findMeetingsByTypeId(Long id);
+    List<Meeting> findMeetingsById(Long[] ids);
 }

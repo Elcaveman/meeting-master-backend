@@ -20,7 +20,11 @@ public class ProfileService {
     public List<Profile> getProfiles(){
         return this.profileRepository.findAll();
     }
-    public Profile getProfileById(long id){
+    public Profile getProfileById(Long id){
         return this.profileRepository.findProfileById(id);
     }
+    public Profile getProfileByEmail(String email){
+        return this.profileRepository.findProfileByEmailIgnoreCase(email);
+    }
+    public List<Profile> getProfilesByNameContains(String name){return this.profileRepository.findProfilesByNameContainsIgnoreCase(name);}
 }

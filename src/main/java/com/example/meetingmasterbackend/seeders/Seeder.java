@@ -44,6 +44,9 @@ public class Seeder implements CommandLineRunner {
         a1.setName("Action 1");a1.setCreatedAt(new Date());a1.setOwner(p1);a1.setDeadline(new Date());
         a1.setFinishedByProfile(p1);a1.setFinishedByMeeting(m1);a1.getMeetings().add(m1);
         actionRepository.save(a1);
+        Action a2 = Action.builder().name("Action 2").createdAt(new Date()).owner(p1).deadline(new Date())
+                .finishedByMeeting(m1).finishedByProfile(p1).build();
+        actionRepository.save(a2);
 
     }
 }

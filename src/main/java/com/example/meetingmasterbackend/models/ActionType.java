@@ -10,7 +10,7 @@ import java.util.Set;
 public class ActionType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String name;
 
     @OneToMany(mappedBy = "type") // DONE

@@ -21,7 +21,7 @@ import java.util.Set;
 public class Action {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     private String name;
     private Date createdAt;
     @ManyToOne // DONE

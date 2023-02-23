@@ -4,12 +4,18 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
