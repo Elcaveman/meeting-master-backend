@@ -1,5 +1,7 @@
 package com.example.meetingmasterbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -12,6 +14,7 @@ public class MeetingType {
     private String name;
 
     @OneToMany(mappedBy = "type") // DONE
+    @JsonBackReference
     private Set<Meeting> meetings;
 
     public long getId() {

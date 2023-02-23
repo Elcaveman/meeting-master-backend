@@ -1,10 +1,12 @@
 package com.example.meetingmasterbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,6 +17,7 @@ public class Meeting {
     private String name;
     @ManyToOne // DONE
     @JoinColumn(name = "owner_id")
+    @JsonManagedReference
     private Profile owner;
     private Date createdAt;
     private Date beginsAt;
@@ -31,13 +34,16 @@ public class Meeting {
             joinColumns = @JoinColumn(name = "meeting_id"),
             inverseJoinColumns = @JoinColumn(name = "action_id")
     )
+    @JsonManagedReference
     private Set<Action> actions = new HashSet<>();
 
     @OneToMany(mappedBy = "finishedByMeeting") // DONE
+    @JsonBackReference
     private Set<Action> finishedActions = new HashSet<>();
 
     @ManyToOne // DONE
     @JoinColumn(name = "type_id")
+    @JsonManagedReference
     private MeetingType type;
 
     public Long getId() {

@@ -1,5 +1,9 @@
 package com.example.meetingmasterbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,21 +26,26 @@ public class Action {
     private Date createdAt;
     @ManyToOne // DONE
     @JoinColumn(name = "owner_id")
+    @JsonManagedReference
     private Profile owner;
     private Date deadline;
 
     @ManyToOne // DONE
     @JoinColumn(name = "finished_by_meeting_id")
+    @JsonManagedReference
     private Meeting finishedByMeeting;
 
     @ManyToOne // DONE
     @JoinColumn(name = "finished_by_profile_id")
+    @JsonManagedReference
     private Profile finishedByProfile;
     @ManyToMany(mappedBy = "actions") // DONE mapping
+    @JsonBackReference
     private Set<Meeting> meetings = new HashSet<>();
 
     @ManyToOne // DONE
     @JoinColumn(name = "type_id")
+    @JsonManagedReference
     private ActionType type;
 
 

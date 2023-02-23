@@ -1,5 +1,7 @@
 package com.example.meetingmasterbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -13,12 +15,15 @@ public class Profile {
     private String email;
 
     @OneToMany(mappedBy = "owner") // DONE
+    @JsonBackReference
     private Set<Action> actions;
 
     @OneToMany(mappedBy = "owner") // DONE
+    @JsonBackReference
     private Set<Meeting> meetings;
 
     @OneToMany(mappedBy = "finishedByProfile") // DONE
+    @JsonBackReference
     private Set<Action> finishedActions;
 
 
