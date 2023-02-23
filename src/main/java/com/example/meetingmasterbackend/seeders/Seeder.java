@@ -41,7 +41,7 @@ public class Seeder implements CommandLineRunner {
 
         // Meeting
         Meeting m1 = Meeting.builder().name("Meeting1").beginsAt(new Date()).createdAt(new Date()).owner(p1)
-                .isRepeated(true).repeatedEvery(3).endsAt(new Date()).isWeeklyRepeated(false).isMonthlyRepeated(true).type(mt1).build();
+                .isRepeated(true).repeatedEvery(3).endsAt(new Date()).isWeeklyRepeated(false).isMonthlyRepeated(true).type(mt1).dailyRepetition("1110100").build();
         meetingRepository.save(m1);
 
         // Action

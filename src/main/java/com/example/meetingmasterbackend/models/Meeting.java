@@ -1,16 +1,13 @@
 package com.example.meetingmasterbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Builder
@@ -32,7 +29,7 @@ public class Meeting {
     private int repeatedEvery;
     private boolean isWeeklyRepeated;
     private boolean isMonthlyRepeated;
-    private String dailyRepetition;
+    private String dailyRepetition; // 7 characters
     private Date endsAt;
     private int endsAfter;
     @ManyToMany // DONE
@@ -128,8 +125,17 @@ public class Meeting {
         isMonthlyRepeated = monthlyRepeated;
     }
 
-    public String getDailyRepetition() {
-        return dailyRepetition;
+    public Map getDailyRepetition() {
+        String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"};
+        Map<String, Boolean> repetitionDays = new LinkedHashMap<>();
+        if(dailyRepetition != null){
+            for (int i = 0; i < 7 && i<this.dailyRepetition.length(); i++) {
+                boolean isRepeating = this.dailyRepetition.charAt(i) == '1' ;
+                repetitionDays.put(daysOfWeek[i], isRepeating);
+            }
+            return repetitionDays;
+        }
+        else return null;
     }
 
     public void setDailyRepetition(String dailyRepetition) {
