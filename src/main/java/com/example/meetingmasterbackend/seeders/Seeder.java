@@ -5,6 +5,7 @@ import com.example.meetingmasterbackend.repositories.ActionRepository;
 import com.example.meetingmasterbackend.repositories.MeetingRepository;
 import com.example.meetingmasterbackend.repositories.ProfileRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ public class Seeder implements CommandLineRunner {
     private final ProfileRepository profileRepository;
     private final MeetingRepository meetingRepository;
 
+    @Autowired
     public Seeder(ActionRepository actionRepository, ProfileRepository profileRepository,MeetingRepository meetingRepository) {
         this.actionRepository = actionRepository;
         this.profileRepository = profileRepository;
