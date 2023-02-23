@@ -1,13 +1,12 @@
 package com.example.meetingmasterbackend.seeders;
 
 import com.example.meetingmasterbackend.models.*;
-import com.example.meetingmasterbackend.repositories.ActionRepository;
-import com.example.meetingmasterbackend.repositories.MeetingRepository;
-import com.example.meetingmasterbackend.repositories.ProfileRepository;
+import com.example.meetingmasterbackend.repositories.*;
 import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Date;
 
 @Component
@@ -15,38 +14,42 @@ public class Seeder implements CommandLineRunner {
     private final ActionRepository actionRepository;
     private final ProfileRepository profileRepository;
     private final MeetingRepository meetingRepository;
+    private final ActionTypeRepository actionTypeRepository;
+    private final MeetingTypeRepository meetingTypeRepository;
 
-    public Seeder(ActionRepository actionRepository, ProfileRepository profileRepository,MeetingRepository meetingRepository) {
+    public Seeder(ActionRepository actionRepository, ProfileRepository profileRepository,MeetingRepository meetingRepository, ActionTypeRepository actionTypeRepository, MeetingTypeRepository meetingTypeRepository) {
         this.actionRepository = actionRepository;
         this.profileRepository = profileRepository;
         this.meetingRepository = meetingRepository;
+        this.actionTypeRepository = actionTypeRepository;
+        this.meetingTypeRepository = meetingTypeRepository;
     }
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
         // Profile
-        Profile p1 = new Profile();
-        p1.setName("Diaeddin BOUIDAINE");p1.setEmail("bouidaine@gmail.com");
+        Profile p1 = Profile.builder().name("Diaeddin BOUIDAINE").email("diaeddin@zsoft.com").build();
         profileRepository.save(p1);
-        // Action Type
-        //        ActionType at1 = new ActionType();at1.setName("ActionType1");
-        //        Meeting Type
-        //        MeetingType mt1 = new MeetingType();mt1.setName("MeetingType1");
+
+        // Action and Meetings typess
+        ActionType at1 = ActionType.builder().name("Action Type 1").build();
+        ActionType at2 = ActionType.builder().name("Action Type 2").build();
+        MeetingType mt1 = MeetingType.builder().name("Meeting Type 1").build();
+        actionTypeRepository.saveAll(Arrays.asList(at1,at2));
+        meetingTypeRepository.save(mt1);
 
         // Meeting
-        Meeting m1 = new Meeting();m1.setName("Meeting1");m1.setBeginsAt(new Date());
-        m1.setCreatedAt(new Date());m1.setOwner(p1);m1.setTime("13:15");m1.setRepeated(true);
-        m1.setEndsAt(new Date());m1.setRepeatedEvery(3);m1.setWeeklyRepeated(true);
+        Meeting m1 = Meeting.builder().name("Meeting1").beginsAt(new Date()).createdAt(new Date()).owner(p1)
+                .isRepeated(true).repeatedEvery(3).endsAt(new Date()).isWeeklyRepeated(false).isMonthlyRepeated(true).type(mt1).build();
         meetingRepository.save(m1);
+
         // Action
-        Action a1 = new Action();
-        a1.setName("Action 1");a1.setCreatedAt(new Date());a1.setOwner(p1);a1.setDeadline(new Date());
-        a1.setFinishedByProfile(p1);a1.setFinishedByMeeting(m1);a1.getMeetings().add(m1);
-        actionRepository.save(a1);
+        Action a1 = Action.builder().name("Action 1").createdAt(new Date()).owner(p1).deadline(new Date())
+                .finishedByMeeting(m1).finishedByProfile(p1).type(at1).build();
         Action a2 = Action.builder().name("Action 2").createdAt(new Date()).owner(p1).deadline(new Date())
-                .finishedByMeeting(m1).finishedByProfile(p1).build();
-        actionRepository.save(a2);
+                .finishedByMeeting(m1).finishedByProfile(p1).type(at2).build();
+        actionRepository.saveAll(Arrays.asList(a1,a2));
 
     }
 }

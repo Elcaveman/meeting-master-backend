@@ -3,10 +3,16 @@ package com.example.meetingmasterbackend.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MeetingType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
