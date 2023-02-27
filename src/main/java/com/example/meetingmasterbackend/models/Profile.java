@@ -17,7 +17,9 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "email")
     private String email;
 
     @OneToMany(mappedBy = "owner") // DONE

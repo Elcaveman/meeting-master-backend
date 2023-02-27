@@ -13,10 +13,12 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "action_type")
 public class ActionType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "type") // DONE

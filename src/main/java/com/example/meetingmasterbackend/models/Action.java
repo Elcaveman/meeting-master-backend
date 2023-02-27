@@ -17,25 +17,30 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "action")
+
 public class Action {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "created_at")
     private Date createdAt;
     @ManyToOne // DONE
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner")
     @JsonManagedReference
     private Profile owner;
+    @Column(name = "deadline")
     private Date deadline;
 
     @ManyToOne // DONE
-    @JoinColumn(name = "finished_by_meeting_id")
+    @JoinColumn(name = "finished_by_meeting")
     @JsonManagedReference
     private Meeting finishedByMeeting;
 
     @ManyToOne // DONE
-    @JoinColumn(name = "finished_by_profile_id")
+    @JoinColumn(name = "finished_by_profile")
     @JsonManagedReference
     private Profile finishedByProfile;
     @ManyToMany(mappedBy = "actions") // DONE mapping

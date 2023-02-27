@@ -3,9 +3,7 @@ package com.example.meetingmasterbackend.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.*;
 
@@ -13,29 +11,37 @@ import java.util.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
+@Table(name = "meeting")
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "name")
     private String name;
     @ManyToOne // DONE
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner")
     @JsonManagedReference
     private Profile owner;
+    @Column(name = "created_at")
     private Date createdAt;
+    @Column(name = "begins_at")
     private Date beginsAt;
-    private String time;
-    private boolean isRepeated;
-    private int repeatedEvery;
-    private boolean isWeeklyRepeated;
-    private boolean isMonthlyRepeated;
+    @Column(name = "week_repetition")
+    private int weekRepetition;
+    @Column(name = "month_repetition")
+    private int monthRepetition;
+    @Column(name = "daily_repetition")
     private String dailyRepetition; // 7 characters
+    @Column(name = "ends_at")
     private Date endsAt;
+    @Column(name = "ends_after")
     private int endsAfter;
-    @ManyToMany // DONE
+    @ManyToMany(cascade = {CascadeType.ALL}) // DONE
     @JoinTable(name = "meeting_has_action",
-            joinColumns = @JoinColumn(name = "meeting_id"),
-            inverseJoinColumns = @JoinColumn(name = "action_id")
+            joinColumns = @JoinColumn(name = "meeting"),
+            inverseJoinColumns = @JoinColumn(name = "action")
     )
     @JsonManagedReference
     private Set<Action> actions = new HashSet<>();
@@ -49,136 +55,17 @@ public class Meeting {
     @JsonManagedReference
     private MeetingType type;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Profile getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Profile owner) {
-        this.owner = owner;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getBeginsAt() {
-        return beginsAt;
-    }
-
-    public void setBeginsAt(Date beginsAt) {
-        this.beginsAt = beginsAt;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public boolean isRepeated() {
-        return isRepeated;
-    }
-
-    public void setRepeated(boolean repeated) {
-        isRepeated = repeated;
-    }
-
-    public int getRepeatedEvery() {
-        return repeatedEvery;
-    }
-
-    public void setRepeatedEvery(int repeatedEvery) {
-        this.repeatedEvery = repeatedEvery;
-    }
-
-    public boolean isWeeklyRepeated() {
-        return isWeeklyRepeated;
-    }
-
-    public void setWeeklyRepeated(boolean weeklyRepeated) {
-        isWeeklyRepeated = weeklyRepeated;
-    }
-
-    public boolean isMonthlyRepeated() {
-        return isMonthlyRepeated;
-    }
-
-    public void setMonthlyRepeated(boolean monthlyRepeated) {
-        isMonthlyRepeated = monthlyRepeated;
-    }
-
     public Map getDailyRepetition() {
-        String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"};
+        String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
         Map<String, Boolean> repetitionDays = new LinkedHashMap<>();
-        if(dailyRepetition != null){
-            for (int i = 0; i < 7 && i<this.dailyRepetition.length(); i++) {
-                boolean isRepeating = this.dailyRepetition.charAt(i) == '1' ;
+        if (dailyRepetition != null) {
+            for (int i = 0; i < 7 && i < this.dailyRepetition.length(); i++) {
+                boolean isRepeating = this.dailyRepetition.charAt(i) == '1';
                 repetitionDays.put(daysOfWeek[i], isRepeating);
             }
             return repetitionDays;
-        }
-        else return null;
+        } else return null;
     }
 
-    public void setDailyRepetition(String dailyRepetition) {
-        this.dailyRepetition = dailyRepetition;
-    }
-
-    public Date getEndsAt() {
-        return endsAt;
-    }
-
-    public void setEndsAt(Date endsAt) {
-        this.endsAt = endsAt;
-    }
-
-    public int getEndsAfter() {
-        return endsAfter;
-    }
-
-    public void setEndsAfter(int endsAfter) {
-        this.endsAfter = endsAfter;
-    }
-
-    public Set<Action> getActions() {
-        return actions;
-    }
-
-    public void setActions(Set<Action> actions) {
-        this.actions = actions;
-    }
-
-    public Set<Action> getFinishedActions() {
-        return finishedActions;
-    }
-
-    public void setFinishedActions(Set<Action> finishedActions) {
-        this.finishedActions = finishedActions;
-    }
-
-    public MeetingType getType() {
-        return type;
-    }
-
-    public void setType(MeetingType type) {
-        this.type = type;
-    }
 }
+

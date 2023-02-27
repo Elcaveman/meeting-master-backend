@@ -13,10 +13,12 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "meeting_type")
 public class MeetingType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "type") // DONE
