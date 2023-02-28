@@ -1,5 +1,6 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
+import com.zsoft.meetingmasterbackend.dto.meeting.MeetingDTO;
 import com.zsoft.meetingmasterbackend.models.Meeting;
 import com.zsoft.meetingmasterbackend.services.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +21,17 @@ public class MeetingController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Meeting>> getMeetings(){
+    public ResponseEntity<List<MeetingDTO>> getMeetings(){
         return ResponseEntity.status(HttpStatus.OK).body(meetingService.getMeetings());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Meeting> getMeetingById(@PathVariable Long id){
+    public ResponseEntity<MeetingDTO> getMeetingById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(meetingService.getMeetingById(id));
     }
 
     @GetMapping("/type/{id}")
-    public ResponseEntity<List<Meeting>> getMeetingsByTypeId(@PathVariable Long id){
+    public ResponseEntity<List<MeetingDTO>> getMeetingsByTypeId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(meetingService.getMeetingsByTypeId(id));
     }
 }

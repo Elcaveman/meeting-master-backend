@@ -37,7 +37,7 @@ public class Meeting {
     @Column(name = "ends_at")
     private Date endsAt;
     @Column(name = "ends_after")
-    private int endsAfter;
+    private int repetitionEndsAfter;
     @ManyToMany(cascade = {CascadeType.ALL}) // DONE
     @JoinTable(name = "meeting_has_action",
             joinColumns = @JoinColumn(name = "meeting_id"),
@@ -54,18 +54,6 @@ public class Meeting {
     @JoinColumn(name = "type_id")
     @JsonManagedReference
     private MeetingType type;
-
-    public Map getDailyRepetition() {
-        String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-        Map<String, Boolean> repetitionDays = new LinkedHashMap<>();
-        if (dailyRepetition != null) {
-            for (int i = 0; i < 7 && i < this.dailyRepetition.length(); i++) {
-                boolean isRepeating = this.dailyRepetition.charAt(i) == '1';
-                repetitionDays.put(daysOfWeek[i], isRepeating);
-            }
-            return repetitionDays;
-        } else return null;
-    }
 
 }
 

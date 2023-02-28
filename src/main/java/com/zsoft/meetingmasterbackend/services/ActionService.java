@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ActionService {
@@ -21,10 +22,16 @@ public class ActionService {
         this.actionMapper = actionMapper;
     }
 
-    public List<Action> getActions(){return this.actionRepository.findAll();}
+    public List<ActionDTO> getActions(){
+        return this.actionRepository.findAll().stream().map(actionMapper::actionToActionDTO).collect(Collectors.toList());
+    }
     public ActionDTO getActionById(Long id){
         return this.actionMapper.actionToActionDTO(actionRepository.findActionById(id));
     }
-    public List<Action> getActionsByTypeId(Long id){return this.actionRepository.findActionsByTypeId(id);}
-    public List<Action> getActionsById(Long[] ids){return this.actionRepository.findAllById(ids);}
+    public List<ActionDTO> getActionsByTypeId(Long id){
+        return this.actionRepository.findActionsByTypeId(id).stream().map(actionMapper::actionToActionDTO).collect(Collectors.toList());
+    }
+    public List<ActionDTO> getActionsById(Long[] ids){
+        return this.actionRepository.findAllById(ids).stream().map(actionMapper::actionToActionDTO).collect(Collectors.toList());
+    }
 }

@@ -21,7 +21,7 @@ public class ActionController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Action>> getActions(){
+    public ResponseEntity<List<ActionDTO>> getActions(){
         return ResponseEntity.status(HttpStatus.OK).body(actionService.getActions());
     }
 
@@ -30,7 +30,7 @@ public class ActionController {
         return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionById(id));
     }
     @GetMapping("/type/{id}")
-    public ResponseEntity<List<Action>> getActionsByTypeId(@PathVariable Long id){
+    public ResponseEntity<List<ActionDTO>> getActionsByTypeId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsByTypeId(id));
     }
 
