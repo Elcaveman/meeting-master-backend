@@ -27,12 +27,12 @@ public class ProfileController {
     public ResponseEntity<Profile> getProfileById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfileById(id));
     }
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Profile> getProfileByEmail(@PathVariable String email){
+    @GetMapping(params = "email")
+    public ResponseEntity<Profile> getProfileByEmail(@RequestParam String email){
         return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfileByEmail(email));
     }
-    @GetMapping("/name/{name}")
-    public ResponseEntity<List<Profile>> getProfilesByNameContains(@PathVariable String name){
+    @GetMapping(params = "name")
+    public ResponseEntity<List<Profile>> getProfilesByNameContains(@RequestParam String name){
         return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfilesByNameContains(name));
     }
 }

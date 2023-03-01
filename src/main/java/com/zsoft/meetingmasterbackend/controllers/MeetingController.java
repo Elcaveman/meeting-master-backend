@@ -30,8 +30,8 @@ public class MeetingController {
         return ResponseEntity.status(HttpStatus.OK).body(meetingService.getMeetingById(id));
     }
 
-    @GetMapping("/type/{id}")
-    public ResponseEntity<List<MeetingDTO>> getMeetingsByTypeId(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(meetingService.getMeetingsByTypeId(id));
+    @GetMapping(params = "typeId")
+    public ResponseEntity<List<MeetingDTO>> getMeetingsByTypeId(@RequestParam Long typeId){
+        return ResponseEntity.status(HttpStatus.OK).body(meetingService.getMeetingsByTypeId(typeId));
     }
 }

@@ -29,13 +29,13 @@ public class ActionController {
     public ResponseEntity<ActionDTO> getActionById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionById(id));
     }
-    @GetMapping("/type/{id}")
-    public ResponseEntity<List<ActionDTO>> getActionsByTypeId(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsByTypeId(id));
+    @GetMapping(params = "typeId")
+    public ResponseEntity<List<ActionDTO>> getActionsByTypeId(@RequestParam Long typeId){
+        return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsByTypeId(typeId));
     }
 
-//    @GetMapping("/byIds")
-//    public ResponseEntity<List<Action>> getActionsById(@RequestParam("ids") Long[] ids){
+//    @GetMapping(params = "byIds")
+//    public ResponseEntity<List<ActionDTO>> getActionsById(@RequestParam("byIds") Long[] ids){
 //        return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsById(ids));
 //    }
 }
