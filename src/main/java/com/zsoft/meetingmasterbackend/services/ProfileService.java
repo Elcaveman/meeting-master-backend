@@ -1,30 +1,41 @@
 package com.zsoft.meetingmasterbackend.services;
 
+import com.zsoft.meetingmasterbackend.dto.profile.ProfileDTO;
+import com.zsoft.meetingmasterbackend.mappers.ProfileMapper;
 import com.zsoft.meetingmasterbackend.models.Profile;
 import com.zsoft.meetingmasterbackend.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProfileService {
     private final ProfileRepository profileRepository;
+    private final ProfileMapper profileMapper;
 
     // TODO : Try without constructor, but with Autowired assigned to repo field
     @Autowired
-    public ProfileService(ProfileRepository profileRepository) {
+    public ProfileService(ProfileRepository profileRepository, ProfileMapper profileMapper) {
         this.profileRepository = profileRepository;
+        this.profileMapper = profileMapper;
     }
 
-    public List<Profile> getProfiles(){
-        return this.profileRepository.findAll();
+    public List<ProfileDTO> getProfiles(){
+        return this.profileRepository.findAll().stream().map(profileMapper::profileToProfileDTO).collect(Collectors.toList());
     }
-    public Profile getProfileById(Long id){
-        return this.profileRepository.findProfileById(id);
+    public ProfileDTO getProfileById(Long id){
+        return profileMapper.profileToProfileDTO(this.profileRepository.findProfileById(id));
     }
-    public Profile getProfileByEmail(String email){
-        return this.profileRepository.findProfileByEmailIgnoreCase(email);
+    public ProfileDTO getProfileByEmail(String email){
+        return profileMapper.profileToProfileDTO(this.profileRepository.findProfileByEmailIgnoreCase(email));
     }
-    public List<Profile> getProfilesByNameContains(String name){return this.profileRepository.findProfilesByNameContainsIgnoreCase(name);}
+    public List<ProfileDTO> getProfilesByNameContains(String name){
+        return this.profileRepository
+                .findProfilesByNameContainsIgnoreCase(name)
+                .stream()
+                .map(profileMapper::profileToProfileDTO)
+                .collect(Collectors.toList());
+    }
 }

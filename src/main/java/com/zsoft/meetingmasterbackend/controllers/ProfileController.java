@@ -1,5 +1,6 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
+import com.zsoft.meetingmasterbackend.dto.profile.ProfileDTO;
 import com.zsoft.meetingmasterbackend.models.Profile;
 import com.zsoft.meetingmasterbackend.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,19 @@ public class ProfileController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Profile>> getProfiles(){
+    public ResponseEntity<List<ProfileDTO>> getProfiles(){
         return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfiles());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Profile> getProfileById(@PathVariable Long id){
+    public ResponseEntity<ProfileDTO> getProfileById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfileById(id));
     }
-    @GetMapping(params = "email")
-    public ResponseEntity<Profile> getProfileByEmail(@RequestParam String email){
+    @PostMapping("/search-email")
+    public ResponseEntity<ProfileDTO> getProfileByEmail(@RequestParam("email") String email){
         return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfileByEmail(email));
     }
     @GetMapping(params = "name")
-    public ResponseEntity<List<Profile>> getProfilesByNameContains(@RequestParam String name){
+    public ResponseEntity<List<ProfileDTO>> getProfilesByNameContains(@RequestParam String name){
         return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfilesByNameContains(name));
     }
 }
