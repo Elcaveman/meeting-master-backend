@@ -1,5 +1,6 @@
 package com.zsoft.meetingmasterbackend.dto.meeting;
 
+import com.zsoft.meetingmasterbackend.dto.profile.ProfileDTO;
 import lombok.*;
 
 import java.util.Date;
@@ -14,7 +15,7 @@ import java.util.Map;
 public class MeetingDTO {
     private Long id;
     private String name;
-    private String owner;
+    private ProfileDTO owner;
     private Date createdAt;
     private Date beginsAt;
     private Date endsAt;

@@ -11,5 +11,12 @@ public abstract class ProfileMapper {
     @Mapping(target = "id",source = "profile.id")
     @Mapping(target = "name",source = "profile.name")
     @Mapping(target = "email",source = "profile.email")
-    public abstract ProfileDTO profileToProfileDTO(Profile profile);
+    public abstract ProfileDTO toProfileDto(Profile profile);
+
+    @Mapping(target = "id",source = "profile.id")
+    @Mapping(target = "name",source = "profile.name")
+    @Mapping(target = "email",source = "profile.email")
+    public abstract ProfileDTO toSimpleProfileDto(Profile profile);
+
+
 }

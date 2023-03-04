@@ -1,7 +1,6 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
-import com.zsoft.meetingmasterbackend.dto.action.ActionDTO;
-import com.zsoft.meetingmasterbackend.models.Action;
+import com.zsoft.meetingmasterbackend.dto.action.SimpleActionDTO;
 import com.zsoft.meetingmasterbackend.services.ActionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,16 +20,16 @@ public class ActionController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ActionDTO>> getActions(){
+    public ResponseEntity<List<SimpleActionDTO>> getActions(){
         return ResponseEntity.status(HttpStatus.OK).body(actionService.getActions());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ActionDTO> getActionById(@PathVariable Long id){
+    public ResponseEntity<SimpleActionDTO> getActionById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionById(id));
     }
     @GetMapping(params = "typeId")
-    public ResponseEntity<List<ActionDTO>> getActionsByTypeId(@RequestParam Long typeId){
+    public ResponseEntity<List<SimpleActionDTO>> getActionsByTypeId(@RequestParam Long typeId){
         return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsByTypeId(typeId));
     }
 
