@@ -23,6 +23,7 @@ public class ActionDto {
     private Long id;
     private String name;
     private Date createdAt;
+    private boolean finished;
     private ProfileDTO owner;
     private Date deadline;
     private SimpleMeetingDto finishedByMeeting;

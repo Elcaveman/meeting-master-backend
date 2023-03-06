@@ -24,28 +24,29 @@ public class Action {
     private String name;
     @Column(name = "created_at")
     private Date createdAt;
+
+    private boolean finished;
     @ManyToOne // DONE
     @JoinColumn(name = "owner_id")
-    @JsonManagedReference
     private Profile owner;
     @Column(name = "deadline")
     private Date deadline;
 
     @ManyToOne // DONE
     @JoinColumn(name = "finished_by_meeting_id")
-    @JsonManagedReference
     private Meeting finishedByMeeting;
 
     @ManyToOne // DONE
     @JoinColumn(name = "finished_by_profile_id")
-    @JsonManagedReference
     private Profile finishedByProfile;
-    @ManyToMany(mappedBy = "actions") // DONE mapping
-    @JsonBackReference
-    private Set<Meeting> meetings = new HashSet<>();
+    @ManyToMany(cascade = {CascadeType.ALL}) // DONE
+    @JoinTable(name = "meeting_has_action",
+            joinColumns = @JoinColumn(name = "action_id"),
+            inverseJoinColumns = @JoinColumn(name = "meeting_id")
+    )
+    private Set<Meeting> meetings; // only the owner can add references!
 
     @ManyToOne // DONE
     @JoinColumn(name = "type_id")
-    @JsonManagedReference
     private ActionType type;
 }

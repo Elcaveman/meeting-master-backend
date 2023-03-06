@@ -15,4 +15,5 @@ public class SimpleActionDTO {
     private Date createdAt;
     private Date deadline;
     private String type;
+    private boolean finished;
 }

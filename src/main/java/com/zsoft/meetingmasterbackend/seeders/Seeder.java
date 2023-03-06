@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -27,8 +28,8 @@ public class Seeder implements CommandLineRunner {
 
     @Override
     @Transactional
-    public void run(String... args){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
+    public void run(String... args) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy",Locale.ENGLISH);
         // Profile
         Profile p1 = Profile.builder().name("Diaeddin BOUIDAINE").email("diaeddin@zsoft.com").build();
         Profile p2 = Profile.builder().name("Mehdi Oudaoud").email("mehdi@zsoft.com").build();
@@ -45,15 +46,27 @@ public class Seeder implements CommandLineRunner {
         Meeting m1 = Meeting.builder().name("Meeting1").beginsAt(new Date()).createdAt(new Date()).owner(p1)
              .endsAt(new Date()).weekRepetition(1).monthRepetition(0).type(mt1).dailyRepetition("0001111").build();
         Meeting m2 = Meeting.builder().name("Meeting2").beginsAt(new Date()).createdAt(new Date()).owner(p2)
-                .endsAt(new Date("20/12/2023")).weekRepetition(0).monthRepetition(4).type(mt1).build();
+                .endsAt(formatter.parse("12-20-2023")).weekRepetition(0).monthRepetition(4).type(mt1).build();
         meetingRepository.saveAll(Arrays.asList(m1,m2));
 
         // Action
         Action a1 = Action.builder().name("Action 1").createdAt(new Date()).owner(p1).deadline(new Date())
-                .finishedByMeeting(m1).finishedByProfile(p1).type(at1).build();
-        Action a2 = Action.builder().name("Action 2").createdAt(new Date()).owner(p1).deadline(new Date())
-                .finishedByMeeting(m1).finishedByProfile(p1).type(at2).build();
+                .finishedByMeeting(m1).finishedByProfile(p1).type(at1).finished(true)
+                .meetings(new HashSet<>(Arrays.asList(m1,m2))).build();
+        Action a2 = Action.builder().name("Action 2").createdAt(formatter.parse("01-01-2021")).meetings(new HashSet<>(Arrays.asList(m1))).owner(p1).deadline(new Date())
+                .finishedByMeeting(m1).finishedByProfile(p1).type(at2).finished(false).build();
+        Action a3 = Action.builder()
+                .name("Action 2")
+                .createdAt(formatter.parse("01-01-2020"))
+                .owner(p1)
+                .deadline(formatter.parse("01-01-2023"))
+                .finishedByMeeting(m2)
+                .meetings(new HashSet<>(Arrays.asList(m2)))
+                .finishedByProfile(p1)
+                .type(at1)
+                .finished(false)
+                .build();
 //        Action a3 = Action.builder().name("Action 3").createdAt(new Date("2022-10-16")).owner(p2).deadline(new Date("2022-10-20")).build();
-        actionRepository.saveAll(Arrays.asList(a1,a2));
+        actionRepository.saveAll(Arrays.asList(a1,a2,a3));
     }
 }
