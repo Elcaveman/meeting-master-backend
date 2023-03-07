@@ -1,7 +1,6 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
 import com.zsoft.meetingmasterbackend.dto.profile.ProfileDTO;
-import com.zsoft.meetingmasterbackend.models.Profile;
 import com.zsoft.meetingmasterbackend.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

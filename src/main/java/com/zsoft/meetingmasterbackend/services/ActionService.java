@@ -2,10 +2,8 @@ package com.zsoft.meetingmasterbackend.services;
 
 import com.zsoft.meetingmasterbackend.dto.action.ActionDTO;
 import com.zsoft.meetingmasterbackend.mappers.ActionMapper;
-import com.zsoft.meetingmasterbackend.models.Action;
 import com.zsoft.meetingmasterbackend.repositories.ActionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

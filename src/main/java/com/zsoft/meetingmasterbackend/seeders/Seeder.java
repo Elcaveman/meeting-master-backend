@@ -42,6 +42,8 @@ public class Seeder implements CommandLineRunner {
         meetingTypeRepository.save(mt1);
 
         // Meeting
+        Set<Action> actions = new HashSet<>();
+
         Meeting m1 = Meeting.builder().name("Meeting1").beginsAt(new Date()).createdAt(new Date()).owner(p1)
              .endsAt(new Date()).weekRepetition(1).monthRepetition(0).type(mt1).dailyRepetition("0001111").build();
         Meeting m2 = Meeting.builder().name("Meeting2").beginsAt(new Date()).createdAt(new Date()).owner(p2)
@@ -53,7 +55,14 @@ public class Seeder implements CommandLineRunner {
                 .finishedByMeeting(m1).finishedByProfile(p1).type(at1).build();
         Action a2 = Action.builder().name("Action 2").createdAt(new Date()).owner(p1).deadline(new Date())
                 .finishedByMeeting(m1).finishedByProfile(p1).type(at2).build();
+        Action a3 = Action.builder().name("Action 3").createdAt(new Date()).owner(p1).deadline(new Date())
+                .finishedByMeeting(m2).finishedByProfile(p2).type(at1).build();
 //        Action a3 = Action.builder().name("Action 3").createdAt(new Date("2022-10-16")).owner(p2).deadline(new Date("2022-10-20")).build();
-        actionRepository.saveAll(Arrays.asList(a1,a2));
+        actionRepository.saveAll(Arrays.asList(a1,a2,a3));
+        m1 = meetingRepository.findMeetingById(1L);
+        actions.add(a1);
+        m1.setActions(actions);
+        meetingRepository.save(m1);
+
     }
 }

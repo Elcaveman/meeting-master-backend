@@ -1,11 +1,13 @@
 package com.zsoft.meetingmasterbackend.repositories;
 
 import com.zsoft.meetingmasterbackend.models.Profile;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface ProfileRepository extends CrudRepository<Profile,Long> {
+@Repository
+public interface ProfileRepository extends JpaRepository<Profile,Long> {
     List<Profile> findAll();
 
     List<Profile> findProfilesById(Long[] ids);
