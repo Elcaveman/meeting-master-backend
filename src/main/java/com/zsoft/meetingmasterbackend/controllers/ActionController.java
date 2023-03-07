@@ -1,6 +1,7 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
 import com.zsoft.meetingmasterbackend.dto.action.ActionDto;
+import com.zsoft.meetingmasterbackend.dto.action.ActionUpdateDto;
 import com.zsoft.meetingmasterbackend.dto.action.SimpleActionDTO;
 import com.zsoft.meetingmasterbackend.services.ActionService;
 import org.slf4j.Logger;
@@ -38,5 +39,13 @@ public class ActionController {
     @GetMapping("/{id}")
     public ResponseEntity<SimpleActionDTO> getActionById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateAction(@PathVariable Long id,@RequestBody ActionUpdateDto actionUpdateDto){
+        actionUpdateDto.setId(id);
+        System.out.println(actionUpdateDto.toString());
+        actionService.updateAction(actionUpdateDto);
+        return ResponseEntity.noContent().build();
     }
 }

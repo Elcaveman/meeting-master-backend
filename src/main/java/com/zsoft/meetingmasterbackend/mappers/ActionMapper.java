@@ -1,14 +1,13 @@
 package com.zsoft.meetingmasterbackend.mappers;
 
 import com.zsoft.meetingmasterbackend.dto.action.*;
-import com.zsoft.meetingmasterbackend.dto.meeting.MeetingDTO;
 import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDto;
 import com.zsoft.meetingmasterbackend.models.Action;
 import com.zsoft.meetingmasterbackend.models.Meeting;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
@@ -26,6 +25,13 @@ public abstract class ActionMapper {
     @Mapping(target = "deadline",source = "action.deadline")
     @Mapping(target = "type",source = "action.type.name")
     public abstract SimpleActionDTO toSimpleActionDto(Action action);
+
+
+    @Mapping(target = "action.name", source = "actionUpdateDto.name")
+    @Mapping(target = "action.createdAt", source = "actionUpdateDto.createdAt")
+    @Mapping(target = "action.deadline", source = "actionUpdateDto.deadline")
+    @Mapping(target = "action.finished", source = "actionUpdateDto.finished")
+    public abstract Action updateActionFromDto(ActionUpdateDto actionUpdateDto, @MappingTarget Action action);
 
     @Mapping(target = "type",source = "action.type.name")
     @Mapping(target= "finishedByMeeting", expression="java(meetingMapper.toSimpleMeetingDto(action.getFinishedByMeeting()))")

@@ -18,4 +18,5 @@ public interface ActionRepository extends JpaRepository<Action, Long> {
     List<Action> findAllById(Long[] ids);
 
     List<Action> findByMeetings_Id(Long meetingId);
+
 }

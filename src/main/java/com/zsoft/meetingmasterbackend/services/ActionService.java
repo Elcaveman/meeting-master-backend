@@ -1,6 +1,7 @@
 package com.zsoft.meetingmasterbackend.services;
 
 import com.zsoft.meetingmasterbackend.dto.action.ActionDto;
+import com.zsoft.meetingmasterbackend.dto.action.ActionUpdateDto;
 import com.zsoft.meetingmasterbackend.dto.action.SimpleActionDTO;
 import com.zsoft.meetingmasterbackend.mappers.ActionMapper;
 import com.zsoft.meetingmasterbackend.models.Action;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,5 +39,15 @@ public class ActionService {
 
     public List<ActionDto> getActionsByMeetingId(Long meetingId) {
         return this.actionRepository.findByMeetings_Id(meetingId).stream().map(actionMapper::toActionDto).collect(Collectors.toList());
+    }
+
+    public void updateAction(ActionUpdateDto actionUpdateDto){
+        Optional<Action> actionOptional = actionRepository.findById(actionUpdateDto.getId());
+        if(actionOptional.isPresent()){
+            System.out.println(actionUpdateDto.toString());
+            Action action = actionOptional.get();
+            actionMapper.updateActionFromDto(actionUpdateDto,action);
+            actionRepository.save(action);
+        }
     }
 }
