@@ -25,15 +25,15 @@ public class MeetingService {
 
     public List<MeetingDTO> getMeetings()
     {
-        return this.meetingRepository.findAll().stream().map(meetingMapper::MeetingToMeetingDTO).collect(Collectors.toList());
+        return this.meetingRepository.findAll().stream().map(meetingMapper::toMeetingDTO).collect(Collectors.toList());
 
     }
 
     public MeetingDTO getMeetingById(Long id){
-        return meetingMapper.MeetingToMeetingDTO(this.meetingRepository.findMeetingById(id));
+        return meetingMapper.toMeetingDTO(this.meetingRepository.findMeetingById(id));
     }
 
     public List<MeetingDTO> getMeetingsByTypeId(Long id){
-        return this.meetingRepository.findMeetingsByTypeId(id).stream().map(meetingMapper::MeetingToMeetingDTO).collect(Collectors.toList());
+        return this.meetingRepository.findMeetingsByTypeId(id).stream().map(meetingMapper::toMeetingDTO).collect(Collectors.toList());
     }
 }

@@ -1,7 +1,9 @@
 package com.zsoft.meetingmasterbackend.services;
 
-import com.zsoft.meetingmasterbackend.dto.action.ActionDTO;
+import com.zsoft.meetingmasterbackend.dto.action.ActionDto;
+import com.zsoft.meetingmasterbackend.dto.action.SimpleActionDTO;
 import com.zsoft.meetingmasterbackend.mappers.ActionMapper;
+import com.zsoft.meetingmasterbackend.models.Action;
 import com.zsoft.meetingmasterbackend.repositories.ActionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,16 +22,20 @@ public class ActionService {
         this.actionMapper = actionMapper;
     }
 
-    public List<ActionDTO> getActions(){
-        return this.actionRepository.findAll().stream().map(actionMapper::actionToActionDTO).collect(Collectors.toList());
+    public List<ActionDto> getActions(){
+        return this.actionRepository.findAll().stream().map(actionMapper::toActionDto).collect(Collectors.toList());
     }
-    public ActionDTO getActionById(Long id){
-        return this.actionMapper.actionToActionDTO(actionRepository.findActionById(id));
+    public SimpleActionDTO getActionById(Long id){
+        return this.actionMapper.toSimpleActionDto(actionRepository.findActionById(id));
     }
-    public List<ActionDTO> getActionsByTypeId(Long id){
-        return this.actionRepository.findActionsByTypeId(id).stream().map(actionMapper::actionToActionDTO).collect(Collectors.toList());
+    public List<ActionDto> getActionsByTypeId(Long id){
+        return this.actionRepository.findActionsByTypeId(id).stream().map(actionMapper::toActionDto).collect(Collectors.toList());
     }
-    public List<ActionDTO> getActionsById(Long[] ids){
-        return this.actionRepository.findAllById(ids).stream().map(actionMapper::actionToActionDTO).collect(Collectors.toList());
+    public List<SimpleActionDTO> getActionsById(Long[] ids){
+        return this.actionRepository.findAllById(ids).stream().map(actionMapper::toSimpleActionDto).collect(Collectors.toList());
+    }
+
+    public List<ActionDto> getActionsByMeetingId(Long meetingId) {
+        return this.actionRepository.findByMeetings_Id(meetingId).stream().map(actionMapper::toActionDto).collect(Collectors.toList());
     }
 }

@@ -38,12 +38,7 @@ public class Meeting {
     private Date endsAt;
     @Column(name = "ends_after")
     private int repetitionEndsAfter;
-    @ManyToMany(cascade = {CascadeType.ALL}) // DONE
-    @JoinTable(name = "meeting_has_action",
-            joinColumns = @JoinColumn(name = "meeting_id"),
-            inverseJoinColumns = @JoinColumn(name = "action_id")
-    )
-    @JsonManagedReference
+    @ManyToMany(mappedBy = "meetings")
     private Set<Action> actions = new HashSet<>();
 
     @OneToMany(mappedBy = "finishedByMeeting") // DONE

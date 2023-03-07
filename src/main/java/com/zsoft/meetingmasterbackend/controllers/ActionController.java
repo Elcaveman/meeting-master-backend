@@ -1,7 +1,7 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
-import com.zsoft.meetingmasterbackend.dto.action.ActionDTO;
-import com.zsoft.meetingmasterbackend.models.Action;
+import com.zsoft.meetingmasterbackend.dto.action.ActionDto;
+import com.zsoft.meetingmasterbackend.dto.action.SimpleActionDTO;
 import com.zsoft.meetingmasterbackend.services.ActionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,23 +26,17 @@ public class ActionController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ActionDTO>> getActions(){
-        return ResponseEntity.status(HttpStatus.OK).body(actionService.getActions());
+    public ResponseEntity<List<ActionDto>> getActions(@RequestParam(required = false) Long typeId,@RequestParam(required = false) Long meetingId){
+        if (meetingId!=null){
+            return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsByMeetingId(meetingId));
+        }
+        else if(typeId !=null)
+            return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsByTypeId(typeId));
+        else return ResponseEntity.status(HttpStatus.OK).body(actionService.getActions());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ActionDTO> getActionById(@PathVariable Long id){
+    public ResponseEntity<SimpleActionDTO> getActionById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionById(id));
     }
-    @GetMapping(params = "typeId")
-    public ResponseEntity<List<ActionDTO>> getActionsByTypeId(@RequestParam Long typeId){
-        return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsByTypeId(typeId));
-    }
-
-//    @GetMapping(params = "ids")
-//    public ResponseEntity<List<ActionDTO>> getActionsById(@RequestParam("ids") Long[] ids){
-//        System.out.println("Diaeddin APP :::");
-//        Arrays.stream(ids).toList().forEach(System.out::print);
-//        return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsById(ids));
-//    }
 }

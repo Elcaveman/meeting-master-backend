@@ -9,10 +9,11 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActionDTO {
+public class SimpleActionDTO {
     private Long id;
     private String name;
     private Date createdAt;
     private Date deadline;
     private String type;
+    private boolean finished;
 }
