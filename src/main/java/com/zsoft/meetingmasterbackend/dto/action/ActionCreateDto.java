@@ -9,6 +9,6 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class ActionCreateDto {
+public class ActionCreateDto {  
 
 }
