@@ -24,6 +24,7 @@ public class ActionDto {
     private String name;
     private Date createdAt;
     private boolean finished;
+    private Date finishedAt;
     private ProfileDTO owner;
     private Date deadline;
     private SimpleMeetingDto finishedByMeeting;

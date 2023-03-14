@@ -1,12 +1,9 @@
 package com.zsoft.meetingmasterbackend.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,7 +22,7 @@ public class Action {
     @Column(name = "created_at")
     private Date createdAt;
 
-    private boolean finished;
+    private Date finishedAt;
     @ManyToOne // DONE
     @JoinColumn(name = "owner_id")
     private Profile owner;

@@ -24,13 +24,14 @@ public abstract class ActionMapper {
     @Mapping(target = "createdAt",source = "action.createdAt")
     @Mapping(target = "deadline",source = "action.deadline")
     @Mapping(target = "type",source = "action.type.name")
+    @Mapping(target = "finished",expression = "java(action.getFinishedAt()!=null)")
     public abstract SimpleActionDTO toSimpleActionDto(Action action);
 
 
     @Mapping(target = "action.name", source = "actionUpdateDto.name")
     @Mapping(target = "action.createdAt", source = "actionUpdateDto.createdAt")
     @Mapping(target = "action.deadline", source = "actionUpdateDto.deadline")
-    @Mapping(target = "action.finished", source = "actionUpdateDto.finished")
+    @Mapping(target = "action.finishedAt", source = "actionUpdateDto.finishedAt")
     public abstract Action updateActionFromDto(ActionUpdateDto actionUpdateDto, @MappingTarget Action action);
 
     @Mapping(target = "type",source = "action.type.name")

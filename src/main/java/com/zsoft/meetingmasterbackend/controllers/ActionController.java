@@ -27,7 +27,7 @@ public class ActionController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ActionDto>> getActions(@RequestParam(required = false) Long typeId,@RequestParam(required = false) Long meetingId){
+    public ResponseEntity<List<SimpleActionDTO>> getActions(@RequestParam(required = false) Long typeId,@RequestParam(required = false) Long meetingId){
         if (meetingId!=null){
             return ResponseEntity.status(HttpStatus.OK).body(actionService.getActionsByMeetingId(meetingId));
         }

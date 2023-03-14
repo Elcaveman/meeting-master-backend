@@ -15,6 +15,6 @@ public class ActionUpdateDto {
     private Long id;
     private String name;
     private Date createdAt;
-    private boolean finished;
+    private Date finishedAt;
     private Date deadline;
 }

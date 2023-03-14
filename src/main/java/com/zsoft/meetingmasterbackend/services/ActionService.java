@@ -24,21 +24,21 @@ public class ActionService {
         this.actionMapper = actionMapper;
     }
 
-    public List<ActionDto> getActions(){
-        return this.actionRepository.findAll().stream().map(actionMapper::toActionDto).collect(Collectors.toList());
+    public List<SimpleActionDTO> getActions(){
+        return this.actionRepository.findAll().stream().map(actionMapper::toSimpleActionDto).collect(Collectors.toList());
     }
     public SimpleActionDTO getActionById(Long id){
         return this.actionMapper.toSimpleActionDto(actionRepository.findActionById(id));
     }
-    public List<ActionDto> getActionsByTypeId(Long id){
-        return this.actionRepository.findActionsByTypeId(id).stream().map(actionMapper::toActionDto).collect(Collectors.toList());
+    public List<SimpleActionDTO> getActionsByTypeId(Long id){
+        return this.actionRepository.findActionsByTypeId(id).stream().map(actionMapper::toSimpleActionDto).collect(Collectors.toList());
     }
     public List<SimpleActionDTO> getActionsById(Long[] ids){
         return this.actionRepository.findAllById(ids).stream().map(actionMapper::toSimpleActionDto).collect(Collectors.toList());
     }
 
-    public List<ActionDto> getActionsByMeetingId(Long meetingId) {
-        return this.actionRepository.findByMeetings_Id(meetingId).stream().map(actionMapper::toActionDto).collect(Collectors.toList());
+    public List<SimpleActionDTO> getActionsByMeetingId(Long meetingId) {
+        return this.actionRepository.findByMeetings_Id(meetingId).stream().map(actionMapper::toSimpleActionDto).collect(Collectors.toList());
     }
 
     public void updateAction(ActionUpdateDto actionUpdateDto){
