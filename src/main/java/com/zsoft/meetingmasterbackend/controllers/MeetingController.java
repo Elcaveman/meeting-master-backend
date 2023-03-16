@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -32,5 +33,16 @@ public class MeetingController {
     @GetMapping(params = "typeId")
     public ResponseEntity<List<MeetingDTO>> getMeetingsByTypeId(@RequestParam Long typeId){
         return ResponseEntity.status(HttpStatus.OK).body(meetingService.getMeetingsByTypeId(typeId));
+    }
+
+    @PostMapping
+    public ResponseEntity<MeetingDTO> createMeeting(@RequestBody MeetingDTO meetingDTO){
+        final MeetingDTO result = meetingService.createMeeting(meetingDTO);
+        return ResponseEntity.created(
+                        ServletUriComponentsBuilder.fromCurrentRequest()
+                                .path("/{id}")
+                                .buildAndExpand(result.getId())
+                                .toUri())
+                .body(result);
     }
 }

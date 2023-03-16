@@ -22,5 +22,5 @@ public class MeetingDTO {
     private int weekRepetition;
     private int repetitionEndsAfter;
     private Map dailyRepetition=  new LinkedHashMap();
-    private String type;
+    private MeetingTypeDto type;
 }

@@ -1,7 +1,7 @@
 package com.zsoft.meetingmasterbackend.mappers;
 
 import com.zsoft.meetingmasterbackend.dto.action.*;
-import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDto;
+import com.zsoft.meetingmasterbackend.dto.meeting.MeetingDTO;
 import com.zsoft.meetingmasterbackend.models.Action;
 import com.zsoft.meetingmasterbackend.models.Meeting;
 import org.mapstruct.InjectionStrategy;
@@ -34,15 +34,16 @@ public abstract class ActionMapper {
     @Mapping(target = "action.finishedAt", source = "actionUpdateDto.finishedAt")
     public abstract Action updateActionFromDto(ActionUpdateDto actionUpdateDto, @MappingTarget Action action);
 
+
     @Mapping(target = "type",source = "action.type.name")
-    @Mapping(target= "finishedByMeeting", expression="java(meetingMapper.toSimpleMeetingDto(action.getFinishedByMeeting()))")
+    @Mapping(target= "finishedByMeeting", expression="java(meetingMapper.toMeetingDto(action.getFinishedByMeeting()))")
     @Mapping(target= "finishedByProfile", expression="java(profileMapper.toSimpleProfileDto(action.getFinishedByProfile()))")
     @Mapping(target= "owner", expression="java(profileMapper.toSimpleProfileDto(action.getOwner()))")
     @Mapping(target="meetings",expression = "java(toMeetingDtos(action.getMeetings()))")
     public abstract ActionDto toActionDto(Action action);
 
-    Set<SimpleMeetingDto> toMeetingDtos(Set<Meeting> meetings) {
-        return meetings.stream().map( meeting -> meetingMapper.toSimpleMeetingDto(meeting) ).collect( Collectors.toSet() );
+    Set<MeetingDTO> toMeetingDtos(Set<Meeting> meetings) {
+        return meetings.stream().map( meeting -> meetingMapper.toMeetingDto(meeting) ).collect( Collectors.toSet() );
     }
 
 
