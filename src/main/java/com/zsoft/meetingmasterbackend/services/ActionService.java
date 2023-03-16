@@ -1,7 +1,6 @@
 package com.zsoft.meetingmasterbackend.services;
 
-import com.zsoft.meetingmasterbackend.dto.action.ActionDto;
-import com.zsoft.meetingmasterbackend.dto.action.ActionUpdateDto;
+import com.zsoft.meetingmasterbackend.dto.action.ActionUpdateDTO;
 import com.zsoft.meetingmasterbackend.dto.action.SimpleActionDTO;
 import com.zsoft.meetingmasterbackend.mappers.ActionMapper;
 import com.zsoft.meetingmasterbackend.models.Action;
@@ -41,7 +40,7 @@ public class ActionService {
         return this.actionRepository.findByMeetings_Id(meetingId).stream().map(actionMapper::toSimpleActionDto).collect(Collectors.toList());
     }
 
-    public void updateAction(ActionUpdateDto actionUpdateDto){
+    public void updateAction(ActionUpdateDTO actionUpdateDto){
         Optional<Action> actionOptional = actionRepository.findById(actionUpdateDto.getId());
         if(actionOptional.isPresent()){
             System.out.println(actionUpdateDto.toString());

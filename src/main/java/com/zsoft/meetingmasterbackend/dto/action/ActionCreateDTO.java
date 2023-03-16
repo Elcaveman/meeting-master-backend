@@ -1,14 +1,14 @@
 package com.zsoft.meetingmasterbackend.dto.action;
 
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Builder
-@Getter
 @Setter
-public class ActionTypeDto {
-    private Long id;
-    private String name;
+@Getter
+@Builder
+@ToString
+public class ActionCreateDTO {
+
 }

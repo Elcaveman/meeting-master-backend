@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class ActionUpdateDto {
+public class ActionUpdateDTO {
     private Long id;
     private String name;
     private Date createdAt;

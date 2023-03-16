@@ -1,7 +1,6 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
-import com.zsoft.meetingmasterbackend.dto.action.ActionDto;
-import com.zsoft.meetingmasterbackend.dto.action.ActionUpdateDto;
+import com.zsoft.meetingmasterbackend.dto.action.ActionUpdateDTO;
 import com.zsoft.meetingmasterbackend.dto.action.SimpleActionDTO;
 import com.zsoft.meetingmasterbackend.services.ActionService;
 import org.slf4j.Logger;
@@ -11,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -42,7 +39,7 @@ public class ActionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateAction(@PathVariable Long id,@RequestBody ActionUpdateDto actionUpdateDto){
+    public ResponseEntity<Void> updateAction(@PathVariable Long id,@RequestBody ActionUpdateDTO actionUpdateDto){
         actionUpdateDto.setId(id);
         System.out.println(actionUpdateDto.toString());
         actionService.updateAction(actionUpdateDto);

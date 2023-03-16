@@ -1,6 +1,7 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
 import com.zsoft.meetingmasterbackend.dto.meeting.MeetingDTO;
+import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDTO;
 import com.zsoft.meetingmasterbackend.services.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,13 +37,19 @@ public class MeetingController {
     }
 
     @PostMapping
-    public ResponseEntity<MeetingDTO> createMeeting(@RequestBody MeetingDTO meetingDTO){
-        final MeetingDTO result = meetingService.createMeeting(meetingDTO);
+    public ResponseEntity<SimpleMeetingDTO> createMeeting(@RequestBody SimpleMeetingDTO simpleMeetingDTO){
+        final SimpleMeetingDTO result = meetingService.createMeeting(simpleMeetingDTO);
         return ResponseEntity.created(
                         ServletUriComponentsBuilder.fromCurrentRequest()
                                 .path("/{id}")
                                 .buildAndExpand(result.getId())
                                 .toUri())
                 .body(result);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SimpleMeetingDTO> updateMeeting(@PathVariable Long id, @RequestBody SimpleMeetingDTO simpleMeetingDTO){
+        final SimpleMeetingDTO result = meetingService.updateMeeting(id,simpleMeetingDTO);
+        return ResponseEntity.ok(result);
     }
 }

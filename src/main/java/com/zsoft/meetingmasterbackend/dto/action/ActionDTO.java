@@ -13,7 +13,7 @@ import java.util.Set;
 @Builder
 @Getter
 @Setter
-public class ActionDto {
+public class ActionDTO {
     private Long id;
     private String name;
     private Date createdAt;

@@ -32,7 +32,7 @@ public abstract class ActionMapper {
     @Mapping(target = "action.createdAt", source = "actionUpdateDto.createdAt")
     @Mapping(target = "action.deadline", source = "actionUpdateDto.deadline")
     @Mapping(target = "action.finishedAt", source = "actionUpdateDto.finishedAt")
-    public abstract Action updateActionFromDto(ActionUpdateDto actionUpdateDto, @MappingTarget Action action);
+    public abstract Action updateActionFromDto(ActionUpdateDTO actionUpdateDto, @MappingTarget Action action);
 
 
     @Mapping(target = "type",source = "action.type.name")
@@ -40,7 +40,7 @@ public abstract class ActionMapper {
     @Mapping(target= "finishedByProfile", expression="java(profileMapper.toSimpleProfileDto(action.getFinishedByProfile()))")
     @Mapping(target= "owner", expression="java(profileMapper.toSimpleProfileDto(action.getOwner()))")
     @Mapping(target="meetings",expression = "java(toMeetingDtos(action.getMeetings()))")
-    public abstract ActionDto toActionDto(Action action);
+    public abstract ActionDTO toActionDto(Action action);
 
     Set<MeetingDTO> toMeetingDtos(Set<Meeting> meetings) {
         return meetings.stream().map( meeting -> meetingMapper.toMeetingDto(meeting) ).collect( Collectors.toSet() );
