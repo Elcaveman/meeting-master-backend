@@ -64,4 +64,8 @@ public class MeetingService {
         // save to repo
         return meetingMapper.toSimpleMeetingDto(this.meetingRepository.save(meetingToUpdate));
     }
+
+    public void deleteMeeting(Long id){
+        meetingRepository.deleteById(id);
+    }
 }

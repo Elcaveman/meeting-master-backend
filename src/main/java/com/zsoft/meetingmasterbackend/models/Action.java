@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -36,12 +37,12 @@ public class Action {
     @ManyToOne // DONE
     @JoinColumn(name = "finished_by_profile_id")
     private Profile finishedByProfile;
-    @ManyToMany(cascade = {CascadeType.ALL}) // DONE
+    @ManyToMany// DONE
     @JoinTable(name = "meeting_has_action",
             joinColumns = @JoinColumn(name = "action_id"),
             inverseJoinColumns = @JoinColumn(name = "meeting_id")
     )
-    private Set<Meeting> meetings; // only the owner can add references!
+    private Set<Meeting> meetings = new HashSet<>(); // only the owner can add references!
 
     @ManyToOne // DONE
     @JoinColumn(name = "type_id")

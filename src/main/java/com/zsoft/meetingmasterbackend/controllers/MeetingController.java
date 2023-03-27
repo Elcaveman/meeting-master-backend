@@ -52,4 +52,10 @@ public class MeetingController {
         final SimpleMeetingDTO result = meetingService.updateMeeting(id,simpleMeetingDTO);
         return ResponseEntity.ok(result);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteMeeting(@PathVariable("id") Long id){
+        meetingService.deleteMeeting(id);
+        return ResponseEntity.ok().build();
+    }
 }

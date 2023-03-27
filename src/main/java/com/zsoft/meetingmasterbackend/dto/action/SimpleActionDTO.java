@@ -14,7 +14,8 @@ public class SimpleActionDTO {
     private String name;
     private Date createdAt;
     private Date deadline;
-    private String type;
+    private Long type;
+    private Long owner;
     private boolean finished;
     private Date finishedAt;
 }

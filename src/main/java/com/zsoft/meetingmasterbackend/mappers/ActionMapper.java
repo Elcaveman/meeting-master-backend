@@ -2,18 +2,20 @@ package com.zsoft.meetingmasterbackend.mappers;
 
 import com.zsoft.meetingmasterbackend.dto.action.*;
 import com.zsoft.meetingmasterbackend.dto.meeting.MeetingDTO;
+import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDTO;
 import com.zsoft.meetingmasterbackend.models.Action;
 import com.zsoft.meetingmasterbackend.models.Meeting;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring"   ,injectionStrategy = InjectionStrategy.CONSTRUCTOR,uses = {MeetingMapper.class, ProfileMapper.class,Collectors.class})
+@Mapper(componentModel = "spring"   ,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = {MeetingMapper.class, ProfileMapper.class,Collectors.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+)
 public abstract class ActionMapper {
     @Autowired
     protected MeetingMapper meetingMapper;
@@ -23,9 +25,20 @@ public abstract class ActionMapper {
     @Mapping(target = "name",source = "action.name")
     @Mapping(target = "createdAt",source = "action.createdAt")
     @Mapping(target = "deadline",source = "action.deadline")
-    @Mapping(target = "type",source = "action.type.name")
+    @Mapping(target = "type",source = "action.type.id   ")
+    @Mapping(target = "owner",source = "action.owner.id")
     @Mapping(target = "finished",expression = "java(action.getFinishedAt()!=null)")
     public abstract SimpleActionDTO toSimpleActionDto(Action action);
+
+    @Mapping(target = "id",source = "action.id")
+    @Mapping(target = "name",source = "action.name")
+    @Mapping(target = "createdAt",source = "action.createdAt")
+    @Mapping(target = "deadline",source = "action.deadline")
+    @Mapping(target = "type",source = "action.type.id   ")
+    @Mapping(target = "owner",source = "action.owner.id")
+    @Mapping(target = "finished",expression = "java(action.getFinishedAt()!=null)")
+    @Mapping(target = "meeting",ignore = true) // ignore meetings when creation
+    public abstract ActionCreateDTO toActionCreateDto(Action action);
 
 
     @Mapping(target = "action.name", source = "actionUpdateDto.name")
@@ -41,6 +54,15 @@ public abstract class ActionMapper {
     @Mapping(target= "owner", expression="java(profileMapper.toSimpleProfileDto(action.getOwner()))")
     @Mapping(target="meetings",expression = "java(toMeetingDtos(action.getMeetings()))")
     public abstract ActionDTO toActionDto(Action action);
+
+    @Mapping(target = "owner.id",source = "owner")
+    @Mapping(target = "type.id",source = "type")
+    public abstract Action toAction(SimpleActionDTO simpleActionDTO);
+
+    @Mapping(target = "owner.id",source = "owner")
+    @Mapping(target = "type.id",source = "type")
+    @Mapping(target = "meetings",ignore = true) // meetings are set in the service !
+    public abstract Action toAction(ActionCreateDTO actionCreateDTO);
 
     Set<MeetingDTO> toMeetingDtos(Set<Meeting> meetings) {
         return meetings.stream().map( meeting -> meetingMapper.toMeetingDto(meeting) ).collect( Collectors.toSet() );

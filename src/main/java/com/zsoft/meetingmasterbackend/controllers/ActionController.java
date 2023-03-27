@@ -1,7 +1,9 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
+import com.zsoft.meetingmasterbackend.dto.action.ActionCreateDTO;
 import com.zsoft.meetingmasterbackend.dto.action.ActionUpdateDTO;
 import com.zsoft.meetingmasterbackend.dto.action.SimpleActionDTO;
+import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDTO;
 import com.zsoft.meetingmasterbackend.services.ActionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -41,8 +44,24 @@ public class ActionController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateAction(@PathVariable Long id,@RequestBody ActionUpdateDTO actionUpdateDto){
         actionUpdateDto.setId(id);
-        System.out.println(actionUpdateDto.toString());
         actionService.updateAction(actionUpdateDto);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<ActionCreateDTO> createAction(@RequestBody ActionCreateDTO actionCreateDTO){
+        final ActionCreateDTO result = actionService.createAction(actionCreateDTO);
+        return ResponseEntity.created(
+                        ServletUriComponentsBuilder.fromCurrentRequest()
+                                .path("/{id}")
+                                .buildAndExpand(result.getId())
+                                .toUri())
+                .body(result);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAction(@PathVariable("id") Long id){
+        actionService.deleteAction(id);
+        return ResponseEntity.ok().build();
     }
 }
