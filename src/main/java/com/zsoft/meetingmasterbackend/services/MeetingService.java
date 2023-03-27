@@ -1,6 +1,6 @@
 package com.zsoft.meetingmasterbackend.services;
 
-import com.zsoft.meetingmasterbackend.dto.meeting.MeetingDTO;
+import com.zsoft.meetingmasterbackend.dto.meeting.MeetingCreateDTO;
 import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDTO;
 import com.zsoft.meetingmasterbackend.mappers.MeetingMapper;
 import com.zsoft.meetingmasterbackend.models.Meeting;
@@ -31,38 +31,38 @@ public class MeetingService {
         this.meetingMapper = meetingMapper;
     }
 
-    public List<MeetingDTO> getMeetings()
+    public List<SimpleMeetingDTO> getMeetings()
     {
-        return this.meetingRepository.findAll().stream().map(meetingMapper::toMeetingDto).collect(Collectors.toList());
+        return this.meetingRepository.findAll().stream().map(meetingMapper::toSimpleMeetingDto).collect(Collectors.toList());
 
     }
 
-    public MeetingDTO getMeetingById(Long id){
-        return meetingMapper.toMeetingDto(this.meetingRepository.findMeetingById(id));
+    public SimpleMeetingDTO getMeetingById(Long id){
+        return meetingMapper.toSimpleMeetingDto(this.meetingRepository.findMeetingById(id));
     }
 
-    public List<MeetingDTO> getMeetingsByTypeId(Long id){
-        return this.meetingRepository.findMeetingsByTypeId(id).stream().map(meetingMapper::toMeetingDto).collect(Collectors.toList());
+    public List<SimpleMeetingDTO> getMeetingsByTypeId(Long id){
+        return this.meetingRepository.findMeetingsByTypeId(id).stream().map(meetingMapper::toSimpleMeetingDto).collect(Collectors.toList());
     }
 
-    public SimpleMeetingDTO createMeeting(SimpleMeetingDTO simpleMeetingDTO){
-        return meetingMapper.toSimpleMeetingDto(this.meetingRepository.save(meetingMapper.toMeeting(simpleMeetingDTO)));
+    public MeetingCreateDTO createMeeting(MeetingCreateDTO meetingCreateDTO){
+        return meetingMapper.toMeetingCreateDto(this.meetingRepository.save(meetingMapper.toMeeting(meetingCreateDTO)));
     }
 
-    public SimpleMeetingDTO updateMeeting(Long id, SimpleMeetingDTO simpleMeetingDTO){
+    public MeetingCreateDTO updateMeeting(Long id, MeetingCreateDTO meetingCreateDTO){
         Meeting meetingToUpdate = meetingRepository.findMeetingById(id);
         // fetch new owner
-        Profile newOwner = profileRepository.findProfileById(simpleMeetingDTO.getOwner());
+        Profile newOwner = profileRepository.findProfileById(meetingCreateDTO.getOwner());
         // fetch new meeting type
-        MeetingType newMeetingType = meetingTypeRepository.findMeetingTypeById(simpleMeetingDTO.getType());
+        MeetingType newMeetingType = meetingTypeRepository.findMeetingTypeById(meetingCreateDTO.getType());
         // map dto to meeting
-        meetingMapper.updateMeetingFromSimpleMeetingDto(simpleMeetingDTO,meetingToUpdate);
+        meetingMapper.updateMeetingFromMeetingCreateDto(meetingCreateDTO,meetingToUpdate);
         // set new type
         meetingToUpdate.setType(newMeetingType);
         // set new owner
         meetingToUpdate.setOwner(newOwner);
         // save to repo
-        return meetingMapper.toSimpleMeetingDto(this.meetingRepository.save(meetingToUpdate));
+        return meetingMapper.toMeetingCreateDto(this.meetingRepository.save(meetingToUpdate));
     }
 
     public void deleteMeeting(Long id){

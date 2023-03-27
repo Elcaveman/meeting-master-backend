@@ -1,6 +1,6 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
-import com.zsoft.meetingmasterbackend.dto.meeting.MeetingDTO;
+import com.zsoft.meetingmasterbackend.dto.meeting.MeetingCreateDTO;
 import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDTO;
 import com.zsoft.meetingmasterbackend.services.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +22,23 @@ public class MeetingController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<MeetingDTO>> getMeetings(){
+    public ResponseEntity<List<SimpleMeetingDTO>> getMeetings(){
         return ResponseEntity.status(HttpStatus.OK).body(meetingService.getMeetings());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MeetingDTO> getMeetingById(@PathVariable Long id){
+    public ResponseEntity<SimpleMeetingDTO> getMeetingById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(meetingService.getMeetingById(id));
     }
 
     @GetMapping(params = "typeId")
-    public ResponseEntity<List<MeetingDTO>> getMeetingsByTypeId(@RequestParam Long typeId){
+    public ResponseEntity<List<SimpleMeetingDTO>> getMeetingsByTypeId(@RequestParam Long typeId){
         return ResponseEntity.status(HttpStatus.OK).body(meetingService.getMeetingsByTypeId(typeId));
     }
 
     @PostMapping
-    public ResponseEntity<SimpleMeetingDTO> createMeeting(@RequestBody SimpleMeetingDTO simpleMeetingDTO){
-        final SimpleMeetingDTO result = meetingService.createMeeting(simpleMeetingDTO);
+    public ResponseEntity<MeetingCreateDTO> createMeeting(@RequestBody MeetingCreateDTO meetingCreateDTO){
+        final MeetingCreateDTO result = meetingService.createMeeting(meetingCreateDTO);
         return ResponseEntity.created(
                         ServletUriComponentsBuilder.fromCurrentRequest()
                                 .path("/{id}")
@@ -48,8 +48,8 @@ public class MeetingController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SimpleMeetingDTO> updateMeeting(@PathVariable Long id, @RequestBody SimpleMeetingDTO simpleMeetingDTO){
-        final SimpleMeetingDTO result = meetingService.updateMeeting(id,simpleMeetingDTO);
+    public ResponseEntity<MeetingCreateDTO> updateMeeting(@PathVariable Long id, @RequestBody MeetingCreateDTO meetingCreateDTO){
+        final MeetingCreateDTO result = meetingService.updateMeeting(id,meetingCreateDTO);
         return ResponseEntity.ok(result);
     }
 

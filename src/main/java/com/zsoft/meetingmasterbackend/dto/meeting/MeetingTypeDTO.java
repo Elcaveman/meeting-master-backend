@@ -7,7 +7,7 @@ import lombok.Setter;
 @Builder
 @Setter
 @Getter
-public class MeetingTypeDto {
+public class MeetingTypeDTO {
     private Long id;
     private String name;
 }

@@ -1,5 +1,6 @@
 package com.zsoft.meetingmasterbackend.dto.action;
 
+import com.zsoft.meetingmasterbackend.dto.profile.ProfileDTO;
 import lombok.*;
 
 import java.util.Date;
@@ -14,8 +15,8 @@ public class SimpleActionDTO {
     private String name;
     private Date createdAt;
     private Date deadline;
-    private Long type;
-    private Long owner;
+    private ActionTypeDTO type;
+    private ProfileDTO owner;
     private boolean finished;
     private Date finishedAt;
 }
