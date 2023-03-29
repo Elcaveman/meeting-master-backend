@@ -14,10 +14,13 @@ import com.zsoft.meetingmasterbackend.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @Service
 public class ActionService {
@@ -53,19 +56,26 @@ public class ActionService {
         return this.actionRepository.findByMeetings_Id(meetingId).stream().map(actionMapper::toSimpleActionDto).collect(Collectors.toList());
     }
 
-    public void updateAction(ActionUpdateDTO actionUpdateDto){
+    public SimpleActionDTO updateAction(ActionUpdateDTO actionUpdateDto){
+        Optional<Meeting> finishedByMeeting = null;
+        Optional<Profile> finishedByProfile = null;
+        if(!isNull(actionUpdateDto.getFinishedByMeeting())){
+            finishedByMeeting = meetingRepository.findById(actionUpdateDto.getFinishedByMeeting());
+            finishedByProfile = profileRepository.findById(actionUpdateDto.getFinishedByProfile());
+        }
         Optional<Action> actionOptional = actionRepository.findById(actionUpdateDto.getId());
-        Optional<Meeting> finishedByMeeting = meetingRepository.findById(actionUpdateDto.getFinishedByMeeting());
-        Optional<Profile> finishedByProfile = profileRepository.findById(actionUpdateDto.getFinishedByProfile());
+        SimpleActionDTO result = null;
         if(actionOptional.isPresent()){
-            System.out.println(actionUpdateDto);
             Action action = actionOptional.get();
             actionMapper.updateActionFromDto(actionUpdateDto,action);
             action.setFinishedAt(actionUpdateDto.getFinishedAt());
-            finishedByMeeting.ifPresent(action::setFinishedByMeeting);
-            finishedByProfile.ifPresent(action::setFinishedByProfile);
-            actionRepository.save(action);
+            if(!isNull(finishedByMeeting) && !isNull(finishedByProfile)){
+                finishedByMeeting.ifPresent(action::setFinishedByMeeting);
+                finishedByProfile.ifPresent(action::setFinishedByProfile);
+            }
+            result = actionMapper.toSimpleActionDto(actionRepository.save(action));
         }
+        return result;
     }
 
     public SimpleActionDTO createAction(ActionCreateDTO actionCreateDTO){

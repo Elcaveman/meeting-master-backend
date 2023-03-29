@@ -21,21 +21,14 @@ public abstract class ActionMapper {
     protected MeetingMapper meetingMapper;
     @Autowired
     protected ProfileMapper profileMapper;
-    @Mapping(target = "id",source = "action.id")
-    @Mapping(target = "name",source = "action.name")
-    @Mapping(target = "createdAt",source = "action.createdAt")
-    @Mapping(target = "deadline",source = "action.deadline")
+
     @Mapping(target = "type",expression = "java(toActionTypeDto(action.getType()))")
-    @Mapping(target = "owner",expression = "java(profileMapper.toSimpleProfileDto(action.getOwner()))")
     @Mapping(target = "finished",expression = "java(action.getFinishedAt()!=null)")
     public abstract SimpleActionDTO toSimpleActionDto(Action action);
 
     public abstract ActionTypeDTO toActionTypeDto(ActionType actionType);
 
-    @Mapping(target = "id",source = "action.id")
-    @Mapping(target = "name",source = "action.name")
-    @Mapping(target = "createdAt",source = "action.createdAt")
-    @Mapping(target = "deadline",source = "action.deadline")
+
     @Mapping(target = "type",source = "action.type.id   ")
     @Mapping(target = "owner",source = "action.owner.id")
     @Mapping(target = "finished",expression = "java(action.getFinishedAt()!=null)")
@@ -43,10 +36,6 @@ public abstract class ActionMapper {
     public abstract ActionCreateDTO toActionCreateDto(Action action);
 
 
-    @Mapping(target = "action.name", source = "actionUpdateDto.name")
-    @Mapping(target = "action.createdAt", source = "actionUpdateDto.createdAt")
-    @Mapping(target = "action.deadline", source = "actionUpdateDto.deadline")
-    @Mapping(target = "action.finishedAt", source = "actionUpdateDto.finishedAt")
     @Mapping(target = "action.finishedByMeeting",ignore = true)
     @Mapping(target = "action.finishedByProfile", ignore = true)
     public abstract void updateActionFromDto(ActionUpdateDTO actionUpdateDto, @MappingTarget Action action);

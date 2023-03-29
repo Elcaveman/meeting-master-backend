@@ -1,5 +1,6 @@
 package com.zsoft.meetingmasterbackend.dto.action;
 
+import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDTO;
 import com.zsoft.meetingmasterbackend.dto.profile.ProfileDTO;
 import lombok.*;
 
@@ -19,4 +20,5 @@ public class SimpleActionDTO {
     private ProfileDTO owner;
     private boolean finished;
     private Date finishedAt;
+    private ProfileDTO finishedByProfile;
 }

@@ -38,10 +38,10 @@ public class ActionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateAction(@PathVariable Long id,@RequestBody ActionUpdateDTO actionUpdateDto){
+    public ResponseEntity<SimpleActionDTO> updateAction(@PathVariable Long id,@RequestBody ActionUpdateDTO actionUpdateDto){
         actionUpdateDto.setId(id);
         actionService.updateAction(actionUpdateDto);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK).body(actionService.updateAction(actionUpdateDto));
     }
 
     @PostMapping

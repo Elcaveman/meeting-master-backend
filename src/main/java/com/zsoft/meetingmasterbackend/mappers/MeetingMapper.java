@@ -11,13 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,uses = {ProfileMapper.class},
-nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(
+        componentModel = "spring",
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = {ProfileMapper.class},
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+)
 public abstract class MeetingMapper {
 
     @Autowired protected ProfileMapper profileMapper;
     @Mapping(target = "dailyRepetition", expression = "java(getDailyRepetition(meeting.getDailyRepetition()))")
-    @Mapping(target = "owner", expression = "java(profileMapper.toProfileDto(meeting.getOwner()))")
     @Mapping(target = "type",expression = "java(toMeetingTypeDto(meeting.getType()))")
     public abstract SimpleMeetingDTO toSimpleMeetingDto(Meeting meeting);
 
@@ -28,7 +31,6 @@ public abstract class MeetingMapper {
 
 
     @Mapping(target = "dailyRepetition",source = "dailyRepetition",qualifiedByName = "setDailyRepetition")
-    @Mapping(target = "owner", expression = "java(profileMapper.toProfile(simpleMeetingDTO.getOwner()))")
     @Mapping(target = "type",expression = "java(toMeetingType(simpleMeetingDTO.getType()))")
     public abstract Meeting toMeeting(SimpleMeetingDTO simpleMeetingDTO);
 
