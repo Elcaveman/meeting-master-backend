@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,22 +46,25 @@ public class MeetingService {
         return this.meetingRepository.findMeetingsByTypeId(id).stream().map(meetingMapper::toSimpleMeetingDto).collect(Collectors.toList());
     }
 
-    public MeetingCreateDTO createMeeting(MeetingCreateDTO meetingCreateDTO){
-        return meetingMapper.toMeetingCreateDto(this.meetingRepository.save(meetingMapper.toMeeting(meetingCreateDTO)));
+    public SimpleMeetingDTO createMeeting(MeetingCreateDTO meetingCreateDTO){
+        Meeting meeting_to_save = meetingMapper.toMeeting(meetingCreateDTO);
+        meeting_to_save.setOwner(profileRepository.findProfileById(meetingCreateDTO.getOwner()));
+        meeting_to_save.setType(meetingTypeRepository.findMeetingTypeById(meetingCreateDTO.getType()));
+        return meetingMapper.toSimpleMeetingDto(this.meetingRepository.save(meeting_to_save));
     }
 
     public MeetingCreateDTO updateMeeting(Long id, MeetingCreateDTO meetingCreateDTO){
         Meeting meetingToUpdate = meetingRepository.findMeetingById(id);
         // fetch new owner
-        Profile newOwner = profileRepository.findProfileById(meetingCreateDTO.getOwner());
+        Optional<Profile> newOwner = Optional.ofNullable(profileRepository.findProfileById(meetingCreateDTO.getOwner()));
         // fetch new meeting type
-        MeetingType newMeetingType = meetingTypeRepository.findMeetingTypeById(meetingCreateDTO.getType());
+        Optional<MeetingType> newMeetingType = Optional.ofNullable(meetingTypeRepository.findMeetingTypeById(meetingCreateDTO.getType()));
         // map dto to meeting
         meetingMapper.updateMeetingFromMeetingCreateDto(meetingCreateDTO,meetingToUpdate);
-        // set new type
-        meetingToUpdate.setType(newMeetingType);
         // set new owner
-        meetingToUpdate.setOwner(newOwner);
+        newOwner.ifPresent(meetingToUpdate::setOwner);
+        // set new type
+        newMeetingType.ifPresent(meetingToUpdate::setType);
         // save to repo
         return meetingMapper.toMeetingCreateDto(this.meetingRepository.save(meetingToUpdate));
     }

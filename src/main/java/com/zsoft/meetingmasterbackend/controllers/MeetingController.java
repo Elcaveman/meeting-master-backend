@@ -37,8 +37,8 @@ public class MeetingController {
     }
 
     @PostMapping
-    public ResponseEntity<MeetingCreateDTO> createMeeting(@RequestBody MeetingCreateDTO meetingCreateDTO){
-        final MeetingCreateDTO result = meetingService.createMeeting(meetingCreateDTO);
+    public ResponseEntity<SimpleMeetingDTO> createMeeting(@RequestBody MeetingCreateDTO meetingCreateDTO){
+        final SimpleMeetingDTO result = meetingService.createMeeting(meetingCreateDTO);
         return ResponseEntity.created(
                         ServletUriComponentsBuilder.fromCurrentRequest()
                                 .path("/{id}")

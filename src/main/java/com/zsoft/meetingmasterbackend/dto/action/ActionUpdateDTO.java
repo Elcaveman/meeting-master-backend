@@ -17,4 +17,6 @@ public class ActionUpdateDTO {
     private Date createdAt;
     private Date finishedAt;
     private Date deadline;
+    private Long finishedByMeeting;
+    private Long finishedByProfile;
 }

@@ -6,8 +6,11 @@ import com.zsoft.meetingmasterbackend.dto.action.SimpleActionDTO;
 import com.zsoft.meetingmasterbackend.mappers.ActionMapper;
 import com.zsoft.meetingmasterbackend.models.Action;
 import com.zsoft.meetingmasterbackend.models.Meeting;
+import com.zsoft.meetingmasterbackend.models.Profile;
 import com.zsoft.meetingmasterbackend.repositories.ActionRepository;
+import com.zsoft.meetingmasterbackend.repositories.ActionTypeRepository;
 import com.zsoft.meetingmasterbackend.repositories.MeetingRepository;
+import com.zsoft.meetingmasterbackend.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +25,15 @@ public class ActionService {
     private final ActionRepository actionRepository;
     private final MeetingRepository meetingRepository;
     private final ActionMapper actionMapper;
+    private final ProfileRepository profileRepository;
+    private final ActionTypeRepository actionTypeRepository;
     @Autowired
-    public ActionService(ActionRepository actionRepository, MeetingRepository meetingRepository, ActionMapper actionMapper) {
+    public ActionService(ActionRepository actionRepository, MeetingRepository meetingRepository, ActionMapper actionMapper, ProfileRepository profileRepository, ActionTypeRepository actionTypeRepository) {
         this.actionRepository = actionRepository;
         this.meetingRepository = meetingRepository;
         this.actionMapper = actionMapper;
+        this.profileRepository = profileRepository;
+        this.actionTypeRepository = actionTypeRepository;
     }
 
     public List<SimpleActionDTO> getActions(){
@@ -48,20 +55,26 @@ public class ActionService {
 
     public void updateAction(ActionUpdateDTO actionUpdateDto){
         Optional<Action> actionOptional = actionRepository.findById(actionUpdateDto.getId());
+        Optional<Meeting> finishedByMeeting = meetingRepository.findById(actionUpdateDto.getFinishedByMeeting());
+        Optional<Profile> finishedByProfile = profileRepository.findById(actionUpdateDto.getFinishedByProfile());
         if(actionOptional.isPresent()){
-            System.out.println(actionUpdateDto.toString());
+            System.out.println(actionUpdateDto);
             Action action = actionOptional.get();
             actionMapper.updateActionFromDto(actionUpdateDto,action);
+            action.setFinishedAt(actionUpdateDto.getFinishedAt());
+            finishedByMeeting.ifPresent(action::setFinishedByMeeting);
+            finishedByProfile.ifPresent(action::setFinishedByProfile);
             actionRepository.save(action);
         }
     }
 
-    public ActionCreateDTO createAction(ActionCreateDTO actionCreateDTO){
+    public SimpleActionDTO createAction(ActionCreateDTO actionCreateDTO){
         Action actionToCreate = actionMapper.toAction(actionCreateDTO);
         actionToCreate.setMeetings(new HashSet<>());
-        Meeting meeting = meetingRepository.findMeetingById(actionCreateDTO.getMeeting());
-        actionToCreate.getMeetings().add(meeting);
-        return actionMapper.toActionCreateDto(this.actionRepository.save(actionToCreate));
+        actionToCreate.getMeetings().add(meetingRepository.findMeetingById(actionCreateDTO.getMeeting()));
+        actionToCreate.setOwner(profileRepository.findProfileById(actionCreateDTO.getOwner()));
+        actionToCreate.setType(actionTypeRepository.findActionTypeById(actionCreateDTO.getType()));
+        return actionMapper.toSimpleActionDto(this.actionRepository.save(actionToCreate));
     }
 
     public void deleteAction(Long id){

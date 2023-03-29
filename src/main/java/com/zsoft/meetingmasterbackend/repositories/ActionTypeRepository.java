@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ActionTypeRepository extends JpaRepository<ActionType,Long> {
 
+    ActionType findActionTypeById(Long id);
+
 }

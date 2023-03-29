@@ -3,10 +3,7 @@ package com.zsoft.meetingmasterbackend.controllers;
 import com.zsoft.meetingmasterbackend.dto.action.ActionCreateDTO;
 import com.zsoft.meetingmasterbackend.dto.action.ActionUpdateDTO;
 import com.zsoft.meetingmasterbackend.dto.action.SimpleActionDTO;
-import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDTO;
 import com.zsoft.meetingmasterbackend.services.ActionService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/actions")
 public class ActionController {
-    private static final Logger log = LoggerFactory.getLogger(ActionController.class);
     private final ActionService actionService;
     @Autowired
     public ActionController(ActionService actionService) {
@@ -49,8 +45,8 @@ public class ActionController {
     }
 
     @PostMapping
-    public ResponseEntity<ActionCreateDTO> createAction(@RequestBody ActionCreateDTO actionCreateDTO){
-        final ActionCreateDTO result = actionService.createAction(actionCreateDTO);
+    public ResponseEntity<SimpleActionDTO> createAction(@RequestBody ActionCreateDTO actionCreateDTO){
+        final SimpleActionDTO result = actionService.createAction(actionCreateDTO);
         return ResponseEntity.created(
                         ServletUriComponentsBuilder.fromCurrentRequest()
                                 .path("/{id}")

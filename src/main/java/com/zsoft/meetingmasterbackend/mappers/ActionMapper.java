@@ -47,7 +47,9 @@ public abstract class ActionMapper {
     @Mapping(target = "action.createdAt", source = "actionUpdateDto.createdAt")
     @Mapping(target = "action.deadline", source = "actionUpdateDto.deadline")
     @Mapping(target = "action.finishedAt", source = "actionUpdateDto.finishedAt")
-    public abstract Action updateActionFromDto(ActionUpdateDTO actionUpdateDto, @MappingTarget Action action);
+    @Mapping(target = "action.finishedByMeeting",ignore = true)
+    @Mapping(target = "action.finishedByProfile", ignore = true)
+    public abstract void updateActionFromDto(ActionUpdateDTO actionUpdateDto, @MappingTarget Action action);
 
     @Mapping(target = "owner.id",source = "owner")
     @Mapping(target = "type.id",source = "type")
