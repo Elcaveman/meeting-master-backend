@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Logger;
+
+import static java.util.Objects.isNull;
 
 @Mapper(
         componentModel = "spring",
@@ -57,15 +60,20 @@ public abstract class MeetingMapper {
         if (dailyRepetition != null) {
             for (int i = 0; i < 7 && i < dailyRepetition.length(); i++) {
                 boolean isRepeating = dailyRepetition.charAt(i) == '1';
-                if(isRepeating) repetitionDays.put(daysOfWeek[i], true);
+                repetitionDays.put(daysOfWeek[i],isRepeating);
             }
             return repetitionDays;
         } else return null;
     }
 
     @Named("setDailyRepetition")
-    public String setDailyRepetition(Map dailyRepetition){
-        // TODO
-        return "";
+    public String setDailyRepetition(Map<String,Boolean> dailyRepetition){
+        String stringDailyRepetition="";
+        if (!isNull(dailyRepetition)){
+            for(Boolean value : dailyRepetition.values()){
+                stringDailyRepetition+=(value)? "1":"0";
+            }
+        }
+        return stringDailyRepetition;
     }
 }
