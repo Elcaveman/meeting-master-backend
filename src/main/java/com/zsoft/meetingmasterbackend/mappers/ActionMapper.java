@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring"   ,
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        uses = {MeetingMapper.class, ProfileMapper.class,Collectors.class},
+        uses = {MeetingMapper.class, ProfileMapper.class,Collectors.class,TopicMapper.class},
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
 public abstract class ActionMapper {
@@ -33,20 +33,24 @@ public abstract class ActionMapper {
     @Mapping(target = "owner",source = "action.owner.id")
     @Mapping(target = "finished",expression = "java(action.getFinishedAt()!=null)")
     @Mapping(target = "meeting",ignore = true) // ignore meetings when creation
+    @Mapping(target = "assignedTo", source = "action.assignedTo.id")
     public abstract ActionCreateDTO toActionCreateDto(Action action);
 
 
     @Mapping(target = "action.finishedByMeeting",ignore = true)
     @Mapping(target = "action.finishedByProfile", ignore = true)
+    @Mapping(target = "action.assignedTo", ignore = true)
+    @Mapping(target = "action.topic", ignore = true)
     public abstract void updateActionFromDto(ActionUpdateDTO actionUpdateDto, @MappingTarget Action action);
 
     @Mapping(target = "owner.id",source = "owner")
     @Mapping(target = "type.id",source = "type")
     @Mapping(target = "meetings",ignore = true) // meetings are set in the service !
+    @Mapping(target = "assignedTo",ignore = true)
     public abstract Action toAction(ActionCreateDTO actionCreateDTO);
 
     Set<SimpleMeetingDTO> toMeetingDtos(Set<Meeting> meetings) {
-        return meetings.stream().map( meeting -> meetingMapper.toSimpleMeetingDto(meeting)).collect( Collectors.toSet() );
+        return meetings.stream().map(meetingMapper::toSimpleMeetingDto).collect( Collectors.toSet() );
     }
 
 

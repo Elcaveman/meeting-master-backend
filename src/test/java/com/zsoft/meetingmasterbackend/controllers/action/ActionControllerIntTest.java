@@ -1,16 +1,14 @@
 //package com.zsoft.meetingmasterbackend.controllers.action;
 //
-//import com.zsoft.meetingmasterbackend.controllers.ActionController;
-//import com.zsoft.meetingmasterbackend.services.ActionService;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
 //import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.MvcResult;
-//import org.springframework.test.web.servlet.RequestBuilder;
-//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+//
+//import java.util.HashMap;
+//import java.util.Map;
 //
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //
@@ -22,9 +20,10 @@
 //    private MockMvc mvc;
 //
 //    @Test
-//    void getActions() throws Exception {
-//        RequestBuilder request = MockMvcRequestBuilders.get("/api/actions");
-//        MvcResult result = mvc.perform(request).andReturn();
-//        assertEquals()
+//    void createAction() throws Exception {
+//        Map<String, Object> create_action_request = new HashMap<>();
+//        create_action_request.put("name","TestAction");
+//        create_action_request.put("owner",2);
+//        create_action_request.put("type",)
 //    }
 //}

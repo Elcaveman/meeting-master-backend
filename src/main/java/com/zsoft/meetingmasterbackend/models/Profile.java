@@ -15,10 +15,12 @@ import java.util.Set;
 @Table(name = "profile")
 public class Profile {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "email")
     private String email;
 
@@ -33,4 +35,8 @@ public class Profile {
     @OneToMany(mappedBy = "finishedByProfile") // DONE
     @JsonBackReference
     private Set<Action> finishedActions;
+
+    @OneToMany(mappedBy = "assignedTo")
+    @JsonBackReference
+    private Set<Action> assignedActions;
 }

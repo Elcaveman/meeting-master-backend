@@ -18,6 +18,7 @@ public class ActionCreateDTO {
     private Date deadline;
     private Long type;
     private Long owner;
+    private Long assignedTo;
     private boolean finished;
     private Date finishedAt;
     private Long meeting;

@@ -7,14 +7,11 @@ import com.zsoft.meetingmasterbackend.mappers.ActionMapper;
 import com.zsoft.meetingmasterbackend.models.Action;
 import com.zsoft.meetingmasterbackend.models.Meeting;
 import com.zsoft.meetingmasterbackend.models.Profile;
-import com.zsoft.meetingmasterbackend.repositories.ActionRepository;
-import com.zsoft.meetingmasterbackend.repositories.ActionTypeRepository;
-import com.zsoft.meetingmasterbackend.repositories.MeetingRepository;
-import com.zsoft.meetingmasterbackend.repositories.ProfileRepository;
+import com.zsoft.meetingmasterbackend.models.Topic;
+import com.zsoft.meetingmasterbackend.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -30,13 +27,15 @@ public class ActionService {
     private final ActionMapper actionMapper;
     private final ProfileRepository profileRepository;
     private final ActionTypeRepository actionTypeRepository;
+    private final TopicRepository topicRepository;
     @Autowired
-    public ActionService(ActionRepository actionRepository, MeetingRepository meetingRepository, ActionMapper actionMapper, ProfileRepository profileRepository, ActionTypeRepository actionTypeRepository) {
+    public ActionService(ActionRepository actionRepository, MeetingRepository meetingRepository, ActionMapper actionMapper, ProfileRepository profileRepository, ActionTypeRepository actionTypeRepository, TopicRepository topicRepository) {
         this.actionRepository = actionRepository;
         this.meetingRepository = meetingRepository;
         this.actionMapper = actionMapper;
         this.profileRepository = profileRepository;
         this.actionTypeRepository = actionTypeRepository;
+        this.topicRepository = topicRepository;
     }
 
     public List<SimpleActionDTO> getActions(){
@@ -57,24 +56,31 @@ public class ActionService {
     }
 
     public SimpleActionDTO updateAction(ActionUpdateDTO actionUpdateDto){
-        Optional<Meeting> finishedByMeeting = null;
-        Optional<Profile> finishedByProfile = null;
-        if(!isNull(actionUpdateDto.getFinishedByMeeting())){
-            finishedByMeeting = meetingRepository.findById(actionUpdateDto.getFinishedByMeeting());
-            finishedByProfile = profileRepository.findById(actionUpdateDto.getFinishedByProfile());
-        }
         Optional<Action> actionOptional = actionRepository.findById(actionUpdateDto.getId());
         SimpleActionDTO result = null;
         if(actionOptional.isPresent()){
             Action action = actionOptional.get();
             actionMapper.updateActionFromDto(actionUpdateDto,action);
             action.setFinishedAt(actionUpdateDto.getFinishedAt());
-            if(!isNull(finishedByMeeting) && !isNull(finishedByProfile)){
+            if(!isNull(actionUpdateDto.getTopic())) {
+                Optional<Topic> topic = topicRepository.findById(actionUpdateDto.getTopic());
+                topic.ifPresent(action::setTopic);
+            }
+            if(!isNull(actionUpdateDto.getFinishedByMeeting())) {
+                Optional<Meeting> finishedByMeeting = meetingRepository.findById(actionUpdateDto.getFinishedByMeeting());
                 finishedByMeeting.ifPresent(action::setFinishedByMeeting);
+            }
+            if(!isNull(actionUpdateDto.getFinishedByProfile())) {
+                Optional<Profile> finishedByProfile = profileRepository.findById(actionUpdateDto.getFinishedByProfile());
                 finishedByProfile.ifPresent(action::setFinishedByProfile);
+            }
+            if(!isNull(actionUpdateDto.getAssignedTo())) {
+                Optional<Profile> assignedTo = profileRepository.findById(actionUpdateDto.getAssignedTo());
+                assignedTo.ifPresent(action::setAssignedTo);
             }
             result = actionMapper.toSimpleActionDto(actionRepository.save(action));
         }
+
         return result;
     }
 

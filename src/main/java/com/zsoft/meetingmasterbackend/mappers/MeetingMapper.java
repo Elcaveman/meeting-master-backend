@@ -25,9 +25,11 @@ public abstract class MeetingMapper {
     @Autowired protected ProfileMapper profileMapper;
     @Mapping(target = "dailyRepetition", expression = "java(getDailyRepetition(meeting.getDailyRepetition()))")
     @Mapping(target = "type",expression = "java(toMeetingTypeDto(meeting.getType()))")
+    @Mapping(target = "closed",expression = "java(meeting.getClosedAt()!=null)")
     public abstract SimpleMeetingDTO toSimpleMeetingDto(Meeting meeting);
 
     @Mapping(target = "dailyRepetition", expression = "java(getDailyRepetition(meeting.getDailyRepetition()))")
+    @Mapping(target = "closed",expression = "java(meeting.getClosedAt()!=null)")
     @Mapping(target = "owner", source = "owner.id")
     @Mapping(target = "type",source = "type.id")
     public abstract MeetingCreateDTO toMeetingCreateDto(Meeting meeting);

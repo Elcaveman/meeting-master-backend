@@ -26,4 +26,6 @@ public class SimpleMeetingDTO {
     private int repetitionEndsAfter;
     private Map dailyRepetition=  new LinkedHashMap();
     private MeetingTypeDTO type;
+    private Date closedAt;
+    private boolean closed;
 }

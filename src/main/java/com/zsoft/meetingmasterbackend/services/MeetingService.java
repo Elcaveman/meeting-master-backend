@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
+
 @Service
 public class MeetingService {
 
@@ -65,6 +67,7 @@ public class MeetingService {
         newOwner.ifPresent(meetingToUpdate::setOwner);
         // set new type
         newMeetingType.ifPresent(meetingToUpdate::setType);
+        meetingToUpdate.setClosedAt(meetingCreateDTO.getClosedAt());
         // save to repo
         return meetingMapper.toMeetingCreateDto(this.meetingRepository.save(meetingToUpdate));
     }

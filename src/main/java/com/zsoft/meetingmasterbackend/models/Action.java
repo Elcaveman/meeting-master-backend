@@ -16,17 +16,25 @@ import java.util.Set;
 @Table(name = "action")
 public class Action {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
     private String name;
+
     @Column(name = "created_at")
     private Date createdAt;
 
+    @Column(name = "finished_at")
     private Date finishedAt;
+
     @ManyToOne // DONE
     @JoinColumn(name = "owner_id")
     private Profile owner;
+
+    @ManyToOne
+    @JoinColumn(name = "assigned_profile_id")
+    private Profile assignedTo;
+
     @Column(name = "deadline")
     private Date deadline;
 
@@ -37,6 +45,7 @@ public class Action {
     @ManyToOne // DONE
     @JoinColumn(name = "finished_by_profile_id")
     private Profile finishedByProfile;
+
     @ManyToMany// DONE
     @JoinTable(name = "meeting_has_action",
             joinColumns = @JoinColumn(name = "action_id"),
@@ -47,4 +56,8 @@ public class Action {
     @ManyToOne // DONE
     @JoinColumn(name = "type_id")
     private ActionType type;
+
+    @ManyToOne
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
 }

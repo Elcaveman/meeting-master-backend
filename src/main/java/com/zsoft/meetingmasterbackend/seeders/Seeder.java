@@ -17,13 +17,15 @@ public class Seeder implements CommandLineRunner {
     private final MeetingRepository meetingRepository;
     private final ActionTypeRepository actionTypeRepository;
     private final MeetingTypeRepository meetingTypeRepository;
+    private final TopicRepository topicRepository;
 
-    public Seeder(ActionRepository actionRepository, ProfileRepository profileRepository,MeetingRepository meetingRepository, ActionTypeRepository actionTypeRepository, MeetingTypeRepository meetingTypeRepository) {
+    public Seeder(ActionRepository actionRepository, ProfileRepository profileRepository, MeetingRepository meetingRepository, ActionTypeRepository actionTypeRepository, MeetingTypeRepository meetingTypeRepository, TopicRepository topicRepository) {
         this.actionRepository = actionRepository;
         this.profileRepository = profileRepository;
         this.meetingRepository = meetingRepository;
         this.actionTypeRepository = actionTypeRepository;
         this.meetingTypeRepository = meetingTypeRepository;
+        this.topicRepository = topicRepository;
     }
 
     @Override
@@ -106,5 +108,25 @@ public class Seeder implements CommandLineRunner {
                 .build();
 //        Action a3 = Action.builder().name("Action 3").createdAt(new Date("2022-10-16")).owner(p2).deadline(new Date("2022-10-20")).build();
         actionRepository.saveAll(Arrays.asList(a1,a2,a3));
+
+
+        Topic t1 = Topic.builder()
+                .meetings(new HashSet<>(Collections.singletonList(m1)))
+                .name("topic1")
+                .build();
+        Topic t2 = Topic.builder()
+                .meetings(new HashSet<>(Arrays.asList(m2,m1)))
+                .name("topic2")
+                .build();
+        Topic t3 = Topic.builder()
+                .meetings(new HashSet<>(Arrays.asList(m2,m1)))
+                .name("topic3")
+                .build();
+        Topic t4 = Topic.builder()
+                .meetings(new HashSet<>(Collections.singletonList(m2)))
+                .name("topic3")
+                .build();
+
+        topicRepository.saveAll(Arrays.asList(t1,t2,t3,t4));
     }
 }
