@@ -23,9 +23,6 @@ public class TopicController {
 
     @GetMapping("")
     public ResponseEntity<List<SimpleTopicDTO>> getActions(@RequestParam(required = false) Long meetingId){
-        if (meetingId!=null){
-            return ResponseEntity.status(HttpStatus.OK).body(topicService.getTopicsByMeetingId(meetingId));
-        }
-        else return ResponseEntity.status(HttpStatus.OK).body(topicService.getTopics());
+        return ResponseEntity.status(HttpStatus.OK).body(topicService.getTopics());
     }
 }

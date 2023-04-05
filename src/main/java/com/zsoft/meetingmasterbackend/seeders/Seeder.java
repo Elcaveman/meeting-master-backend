@@ -111,19 +111,15 @@ public class Seeder implements CommandLineRunner {
 
 
         Topic t1 = Topic.builder()
-                .meetings(new HashSet<>(Collections.singletonList(m1)))
                 .name("topic1")
                 .build();
         Topic t2 = Topic.builder()
-                .meetings(new HashSet<>(Arrays.asList(m2,m1)))
                 .name("topic2")
                 .build();
         Topic t3 = Topic.builder()
-                .meetings(new HashSet<>(Arrays.asList(m2,m1)))
                 .name("topic3")
                 .build();
         Topic t4 = Topic.builder()
-                .meetings(new HashSet<>(Collections.singletonList(m2)))
                 .name("topic3")
                 .build();
 

@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 
 // Used
@@ -28,4 +26,5 @@ public class SimpleMeetingDTO {
     private MeetingTypeDTO type;
     private Date closedAt;
     private boolean closed;
+    private Set<ProfileDTO> participants;
 }

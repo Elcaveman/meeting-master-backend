@@ -11,6 +11,4 @@ public interface TopicRepository extends JpaRepository<Topic,Long> {
 
     List<Topic> findAll();
 
-    List<Topic> findTopicsByMeetings_Id(Long id);
-
 }

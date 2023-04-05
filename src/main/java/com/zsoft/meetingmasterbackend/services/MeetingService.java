@@ -2,7 +2,9 @@ package com.zsoft.meetingmasterbackend.services;
 
 import com.zsoft.meetingmasterbackend.dto.meeting.MeetingCreateDTO;
 import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDTO;
+import com.zsoft.meetingmasterbackend.dto.profile.ProfileDTO;
 import com.zsoft.meetingmasterbackend.mappers.MeetingMapper;
+import com.zsoft.meetingmasterbackend.mappers.ProfileMapper;
 import com.zsoft.meetingmasterbackend.models.Meeting;
 import com.zsoft.meetingmasterbackend.models.MeetingType;
 import com.zsoft.meetingmasterbackend.models.Profile;
@@ -16,8 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.isNull;
-
 @Service
 public class MeetingService {
 
@@ -25,13 +25,15 @@ public class MeetingService {
     private final ProfileRepository profileRepository;
     private final MeetingTypeRepository meetingTypeRepository;
     private final MeetingMapper meetingMapper;
+    private final ProfileMapper profileMapper;
 
     @Autowired
-    public MeetingService(MeetingRepository meetingRepository, ProfileRepository profileRepository, MeetingTypeRepository meetingTypeRepository, MeetingMapper meetingMapper) {
+    public MeetingService(MeetingRepository meetingRepository, ProfileRepository profileRepository, MeetingTypeRepository meetingTypeRepository, MeetingMapper meetingMapper, ProfileMapper profileMapper) {
         this.meetingRepository = meetingRepository;
         this.profileRepository = profileRepository;
         this.meetingTypeRepository = meetingTypeRepository;
         this.meetingMapper = meetingMapper;
+        this.profileMapper = profileMapper;
     }
 
     public List<SimpleMeetingDTO> getMeetings()
@@ -74,5 +76,24 @@ public class MeetingService {
 
     public void deleteMeeting(Long id){
         meetingRepository.deleteById(id);
+    }
+
+    public SimpleMeetingDTO addParticipantToMeeting(Long meetingId, ProfileDTO participantDto) {
+        Meeting meeting = meetingRepository.findMeetingById(meetingId);
+        Optional<Profile> participant = Optional.ofNullable(profileRepository.findProfileById(participantDto.getId()));
+        participant.ifPresentOrElse(meeting.getParticipants()::add, ()-> {
+            Profile newProfile = profileMapper.toProfile(participantDto);
+            meeting.getParticipants().add(newProfile);
+            profileRepository.save(newProfile);
+        });
+        return meetingMapper.toSimpleMeetingDto(meetingRepository.save(meeting));
+    }
+
+    public void deleteParticipant(Long meeting_id, Long participant_id) {
+        //TODO
+        Meeting meeting = meetingRepository.findMeetingById(meeting_id);
+        Optional<Profile> participant = Optional.ofNullable(profileRepository.findProfileById(participant_id));
+        participant.ifPresent(meeting.getParticipants()::remove);
+        meetingRepository.save(meeting);
     }
 }

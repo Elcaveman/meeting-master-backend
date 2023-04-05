@@ -24,8 +24,4 @@ public class TopicService {
     public List<SimpleTopicDTO> getTopics(){
         return topicRepository.findAll().stream().map(topicMapper::toSimpleTopicDto).collect(Collectors.toList());
     }
-
-    public List<SimpleTopicDTO> getTopicsByMeetingId(Long id){
-        return topicRepository.findTopicsByMeetings_Id(id).stream().map(topicMapper::toSimpleTopicDto).collect(Collectors.toList());
-    }
 }

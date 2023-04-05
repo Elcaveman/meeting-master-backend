@@ -2,6 +2,7 @@ package com.zsoft.meetingmasterbackend.controllers;
 
 import com.zsoft.meetingmasterbackend.dto.meeting.MeetingCreateDTO;
 import com.zsoft.meetingmasterbackend.dto.meeting.SimpleMeetingDTO;
+import com.zsoft.meetingmasterbackend.dto.profile.ProfileDTO;
 import com.zsoft.meetingmasterbackend.services.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,6 +57,21 @@ public class MeetingController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMeeting(@PathVariable("id") Long id){
         meetingService.deleteMeeting(id);
+        return ResponseEntity.ok().build();
+    }
+
+
+    //    This method adds the participant to a given meetings' list of participants.
+    //    If the profile does not exist, it will be created with the email of the participant.
+    @PostMapping("{meeting_id}/participants")
+    public ResponseEntity<SimpleMeetingDTO> addParticipantToMeeting(@PathVariable("meeting_id") Long meeting_id, @RequestBody ProfileDTO participantDto){
+        final SimpleMeetingDTO result = meetingService.addParticipantToMeeting(meeting_id,participantDto);
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("{meeting_id}/participants/{participant_id}")
+    public ResponseEntity<?> deleteParticipantFromMeeting(@PathVariable("meeting_id") Long meeting_id, @PathVariable("participant_id") Long participant_id){
+        meetingService.deleteParticipant(meeting_id,participant_id);
         return ResponseEntity.ok().build();
     }
 }

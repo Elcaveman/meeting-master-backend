@@ -32,6 +32,7 @@ public abstract class MeetingMapper {
     @Mapping(target = "closed",expression = "java(meeting.getClosedAt()!=null)")
     @Mapping(target = "owner", source = "owner.id")
     @Mapping(target = "type",source = "type.id")
+//    @Mapping(target = "participants",ignore = true)
     public abstract MeetingCreateDTO toMeetingCreateDto(Meeting meeting);
 
 

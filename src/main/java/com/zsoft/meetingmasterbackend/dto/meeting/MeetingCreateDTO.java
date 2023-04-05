@@ -3,9 +3,7 @@ package com.zsoft.meetingmasterbackend.dto.meeting;
 import jakarta.persistence.Entity;
 import lombok.*;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Builder
 @Getter
@@ -26,4 +24,5 @@ public class MeetingCreateDTO {
     private Long type;
     private Date closedAt;
     private boolean closed;
+//    private List<Long> participants = new ArrayList<>();
 }

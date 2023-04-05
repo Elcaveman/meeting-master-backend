@@ -56,8 +56,8 @@ public class Meeting {
 
     // a meeting has many topics, inside a meeting we could create topic,
     // and then create actions inside these topics
-    @ManyToMany(mappedBy = "meetings")
-    private Set<Topic> topics = new HashSet<>();
+//    @ManyToMany(mappedBy = "meetings")
+//    private Set<Topic> topics = new HashSet<>();
 
     @OneToMany(mappedBy = "finishedByMeeting") // DONE
     @JsonBackReference
@@ -67,5 +67,12 @@ public class Meeting {
     @JoinColumn(name = "type_id")
     @JsonManagedReference
     private MeetingType type;
+
+    @ManyToMany
+    @JoinTable(name = "meeting_has_participant",
+            joinColumns = @JoinColumn(name = "meeting_id"),
+            inverseJoinColumns = @JoinColumn(name = "participant_id")
+    )
+    private Set<Profile> participants = new HashSet<>();
 
 }

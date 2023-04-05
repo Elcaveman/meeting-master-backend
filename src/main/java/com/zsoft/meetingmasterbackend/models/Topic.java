@@ -23,12 +23,12 @@ public class Topic {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "meeting_has_topic",
-            joinColumns = @JoinColumn(name = "topic_id"),
-            inverseJoinColumns = @JoinColumn(name = "meeting_id")
-    )
-    private Set<Meeting> meetings = new HashSet<>();
+//    @ManyToMany
+//    @JoinTable(name = "meeting_has_topic",
+//            joinColumns = @JoinColumn(name = "topic_id"),
+//            inverseJoinColumns = @JoinColumn(name = "meeting_id")
+//    )
+//    private Set<Meeting> meetings = new HashSet<>();
 
     @OneToMany(mappedBy = "topic")
     @JsonBackReference
