@@ -41,7 +41,7 @@ public class ProfileService {
 
     public List<ProfileDTO> getProfilesByNameOrEmailContains(String nameOrEmail){
         return this.profileRepository
-                .findDistinctByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(nameOrEmail,nameOrEmail)
+                .findDistinctTop3ByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(nameOrEmail,nameOrEmail)
                 .stream()
                 .map(profileMapper::toProfileDto)
                 .collect(Collectors.toList());

@@ -80,7 +80,12 @@ public class MeetingService {
 
     public SimpleMeetingDTO addParticipantToMeeting(Long meetingId, ProfileDTO participantDto) {
         Meeting meeting = meetingRepository.findMeetingById(meetingId);
-        Optional<Profile> participant = Optional.ofNullable(profileRepository.findProfileById(participantDto.getId()));
+        Optional<Profile> participant = Optional.ofNullable(
+                profileRepository.findProfileByIdOrEmail(
+                        participantDto.getId(),
+                        participantDto.getEmail()
+                )
+        );
         participant.ifPresentOrElse(meeting.getParticipants()::add, ()-> {
             Profile newProfile = profileMapper.toProfile(participantDto);
             meeting.getParticipants().add(newProfile);
