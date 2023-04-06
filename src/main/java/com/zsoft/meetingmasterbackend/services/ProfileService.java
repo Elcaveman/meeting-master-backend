@@ -38,4 +38,12 @@ public class ProfileService {
                 .map(profileMapper::toProfileDto)
                 .collect(Collectors.toList());
     }
+
+    public List<ProfileDTO> getProfilesByNameOrEmailContains(String nameOrEmail){
+        return this.profileRepository
+                .findDistinctByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(nameOrEmail,nameOrEmail)
+                .stream()
+                .map(profileMapper::toProfileDto)
+                .collect(Collectors.toList());
+    }
 }

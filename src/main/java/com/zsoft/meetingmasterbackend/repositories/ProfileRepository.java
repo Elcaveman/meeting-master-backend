@@ -14,4 +14,6 @@ public interface ProfileRepository extends JpaRepository<Profile,Long> {
     Profile findProfileById(Long id);
     Profile findProfileByEmailIgnoreCase(String email);
     List<Profile> findProfilesByNameContainsIgnoreCase(String name);
+
+    List<Profile> findDistinctByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(String name, String email);
 }

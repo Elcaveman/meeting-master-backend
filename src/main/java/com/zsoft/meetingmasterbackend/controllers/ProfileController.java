@@ -35,4 +35,9 @@ public class ProfileController {
     public ResponseEntity<List<ProfileDTO>> getProfilesByNameContains(@RequestParam String name){
         return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfilesByNameContains(name));
     }
+
+    @GetMapping(params = "nameOrEmail")
+    public ResponseEntity<List<ProfileDTO>> getProfilesByNameOrEmailContains(@RequestParam String nameOrEmail){
+        return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfilesByNameOrEmailContains(nameOrEmail));
+    }
 }
