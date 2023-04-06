@@ -40,7 +40,6 @@ public class ActionController {
     @PutMapping("/{id}")
     public ResponseEntity<SimpleActionDTO> updateAction(@PathVariable Long id,@RequestBody ActionUpdateDTO actionUpdateDto){
         actionUpdateDto.setId(id);
-        actionService.updateAction(actionUpdateDto);
         return ResponseEntity.status(HttpStatus.OK).body(actionService.updateAction(actionUpdateDto));
     }
 

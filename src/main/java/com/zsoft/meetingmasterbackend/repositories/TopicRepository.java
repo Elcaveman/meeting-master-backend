@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic,Long> {
 
-    List<Topic> findAll();
+    List<Topic> findDistinctTop3ByNameContainingIgnoreCase(String name);
 
 }

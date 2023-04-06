@@ -63,8 +63,18 @@ public class ActionService {
             actionMapper.updateActionFromDto(actionUpdateDto,action);
             action.setFinishedAt(actionUpdateDto.getFinishedAt());
             if(!isNull(actionUpdateDto.getTopic())) {
-                Optional<Topic> topic = topicRepository.findById(actionUpdateDto.getTopic());
-                topic.ifPresent(action::setTopic);
+                if(!isNull(actionUpdateDto.getTopic().getId()))
+                {
+                    Optional<Topic> topic = topicRepository.findById(actionUpdateDto.getTopic().getId());
+                    topic.ifPresent(action::setTopic);
+                }
+                else{
+                    if(!isNull(actionUpdateDto.getTopic().getName())){
+                        Topic newTopic = Topic.builder().name(actionUpdateDto.getTopic().getName()).build();
+                        action.setTopic(newTopic);
+                        topicRepository.save(newTopic);
+                    }
+                }
             }
             if(!isNull(actionUpdateDto.getFinishedByMeeting())) {
                 Optional<Meeting> finishedByMeeting = meetingRepository.findById(actionUpdateDto.getFinishedByMeeting());

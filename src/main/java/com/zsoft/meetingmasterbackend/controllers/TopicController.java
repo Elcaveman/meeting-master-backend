@@ -1,5 +1,6 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
+import com.zsoft.meetingmasterbackend.dto.profile.ProfileDTO;
 import com.zsoft.meetingmasterbackend.dto.topic.SimpleTopicDTO;
 import com.zsoft.meetingmasterbackend.models.Topic;
 import com.zsoft.meetingmasterbackend.services.TopicService;
@@ -24,5 +25,10 @@ public class TopicController {
     @GetMapping("")
     public ResponseEntity<List<SimpleTopicDTO>> getActions(@RequestParam(required = false) Long meetingId){
         return ResponseEntity.status(HttpStatus.OK).body(topicService.getTopics());
+    }
+
+    @GetMapping(params = "name")
+    public ResponseEntity<List<SimpleTopicDTO>> getTopicsByName(@RequestParam String name){
+        return ResponseEntity.status(HttpStatus.OK).body(topicService.getTopicsByName(name));
     }
 }

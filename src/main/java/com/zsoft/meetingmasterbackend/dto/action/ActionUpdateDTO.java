@@ -22,5 +22,5 @@ public class ActionUpdateDTO {
     private Long finishedByMeeting;
     private Long finishedByProfile;
     private Long assignedTo;
-    private Long topic;
+    private SimpleTopicDTO topic;
 }

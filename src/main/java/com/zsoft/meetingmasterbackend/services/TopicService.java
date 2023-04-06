@@ -24,4 +24,9 @@ public class TopicService {
     public List<SimpleTopicDTO> getTopics(){
         return topicRepository.findAll().stream().map(topicMapper::toSimpleTopicDto).collect(Collectors.toList());
     }
+
+    public List<SimpleTopicDTO> getTopicsByName(String name){
+        return topicRepository.findDistinctTop3ByNameContainingIgnoreCase(name).stream()
+                .map(topicMapper::toSimpleTopicDto).collect(Collectors.toList());
+    }
 }
