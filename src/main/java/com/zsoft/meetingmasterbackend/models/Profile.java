@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,11 +16,13 @@ import java.util.Set;
 @Table(name = "profile")
 public class Profile {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "name")
     private String name;
-    @Column(name = "email")
+
+    @Column(name = "email",unique = true)
     private String email;
 
     @OneToMany(mappedBy = "owner") // DONE
@@ -33,4 +36,12 @@ public class Profile {
     @OneToMany(mappedBy = "finishedByProfile") // DONE
     @JsonBackReference
     private Set<Action> finishedActions;
+
+    @OneToMany(mappedBy = "assignedTo")
+    @JsonBackReference
+    private Set<Action> assignedActions;
+
+    @ManyToMany(mappedBy = "participants")
+    @JsonBackReference
+    private Set<Meeting> participateMeetings = new HashSet<>();
 }

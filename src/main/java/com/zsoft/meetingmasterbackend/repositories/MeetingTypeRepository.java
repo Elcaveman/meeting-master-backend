@@ -1,8 +1,12 @@
 package com.zsoft.meetingmasterbackend.repositories;
 
 import com.zsoft.meetingmasterbackend.models.MeetingType;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface MeetingTypeRepository extends CrudRepository<MeetingType,Long> {
+@Repository
+public interface MeetingTypeRepository extends JpaRepository<MeetingType,Long> {
+
+    MeetingType findMeetingTypeById(Long id);
 
 }

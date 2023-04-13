@@ -23,19 +23,27 @@ public class ProfileService {
     }
 
     public List<ProfileDTO> getProfiles(){
-        return this.profileRepository.findAll().stream().map(profileMapper::profileToProfileDTO).collect(Collectors.toList());
+        return this.profileRepository.findAll().stream().map(profileMapper::toProfileDto).collect(Collectors.toList());
     }
     public ProfileDTO getProfileById(Long id){
-        return profileMapper.profileToProfileDTO(this.profileRepository.findProfileById(id));
+        return profileMapper.toProfileDto(this.profileRepository.findProfileById(id));
     }
     public ProfileDTO getProfileByEmail(String email){
-        return profileMapper.profileToProfileDTO(this.profileRepository.findProfileByEmailIgnoreCase(email));
+        return profileMapper.toProfileDto(this.profileRepository.findProfileByEmailIgnoreCase(email));
     }
     public List<ProfileDTO> getProfilesByNameContains(String name){
         return this.profileRepository
                 .findProfilesByNameContainsIgnoreCase(name)
                 .stream()
-                .map(profileMapper::profileToProfileDTO)
+                .map(profileMapper::toProfileDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProfileDTO> getProfilesByNameOrEmailContains(String nameOrEmail){
+        return this.profileRepository
+                .findDistinctTop3ByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(nameOrEmail,nameOrEmail)
+                .stream()
+                .map(profileMapper::toProfileDto)
                 .collect(Collectors.toList());
     }
 }

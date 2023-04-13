@@ -1,11 +1,13 @@
 package com.zsoft.meetingmasterbackend.repositories;
 
 import com.zsoft.meetingmasterbackend.models.Meeting;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface MeetingRepository extends CrudRepository<Meeting,Long> {
+@Repository
+public interface MeetingRepository extends JpaRepository<Meeting,Long> {
 
     List<Meeting> findAll();
     Meeting findMeetingById(Long id);

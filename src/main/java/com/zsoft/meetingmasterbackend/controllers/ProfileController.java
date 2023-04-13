@@ -1,7 +1,6 @@
 package com.zsoft.meetingmasterbackend.controllers;
 
 import com.zsoft.meetingmasterbackend.dto.profile.ProfileDTO;
-import com.zsoft.meetingmasterbackend.models.Profile;
 import com.zsoft.meetingmasterbackend.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,5 +34,10 @@ public class ProfileController {
     @GetMapping(params = "name")
     public ResponseEntity<List<ProfileDTO>> getProfilesByNameContains(@RequestParam String name){
         return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfilesByNameContains(name));
+    }
+
+    @GetMapping(params = "nameOrEmail")
+    public ResponseEntity<List<ProfileDTO>> getProfilesByNameOrEmailContains(@RequestParam String nameOrEmail){
+        return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfilesByNameOrEmailContains(nameOrEmail));
     }
 }

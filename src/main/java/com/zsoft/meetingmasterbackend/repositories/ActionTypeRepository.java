@@ -1,8 +1,12 @@
 package com.zsoft.meetingmasterbackend.repositories;
 
 import com.zsoft.meetingmasterbackend.models.ActionType;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ActionTypeRepository extends CrudRepository<ActionType,Long> {
+@Repository
+public interface ActionTypeRepository extends JpaRepository<ActionType,Long> {
+
+    ActionType findActionTypeById(Long id);
 
 }
